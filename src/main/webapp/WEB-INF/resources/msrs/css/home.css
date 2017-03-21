@@ -1,0 +1,19 @@
+.btn {
+	padding: 2px 6px;
+}
+
+.odd {
+	/* background-color: antiquewhite;
+	color: #008b8b; */
+}
+
+td th {
+	height: 20px;
+	min-width: 50px;
+}
+
+thead {
+	background-color: darkgray; 
+	 color: white;
+	height: 25px;
+}
