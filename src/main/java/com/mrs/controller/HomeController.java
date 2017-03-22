@@ -49,7 +49,7 @@ public class HomeController {
 	@RequestMapping(method = RequestMethod.GET, value = "/empList")
     String getEmpList(@ModelAttribute Emp emp, BindingResult bindingresult, Model model) {
 		model.addAttribute("emps", homeService.getAllEmployees());
-		model.addAttribute("emp", null);
+		//model.addAttribute("emp", null);
         return "searchEmp";
     }
 	@RequestMapping(method = RequestMethod.GET, value = "/createEmp")

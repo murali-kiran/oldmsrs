@@ -11,7 +11,7 @@
 <script type="text/javascript" src="../js/app.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="/resources/msrs/css/style_new.css" />
+<!-- <link rel="stylesheet" href="/resources/msrs/css/style_new.css" /> -->
 
 <body>
 <div class="msrs-content">
@@ -32,7 +32,7 @@
         </table>
     </form:form>
 	
-
+<c:if test=${emps !=null}"">
 <div style="margin-right:100px;">
 	<h1 class="ymc-xxxlarge ymc-text-red"><b>Employee List</b></h1>
 	<table style="border:1px solid;" id="tableData" class="table table-bordered table-striped">
@@ -57,7 +57,7 @@
 	</tr>
 	</c:forEach>
 	</table>
-	
+</c:if>	
 	<!-- Pagination Bar -->
    <%--  <div th:fragment='paginationbar'>
         <div>

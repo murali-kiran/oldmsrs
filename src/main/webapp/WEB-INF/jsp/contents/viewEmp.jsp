@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/app.js"></script>
 
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/msrs/css/style_new.css" />
+<%-- <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/msrs/css/style_new.css" /> --%>
 <body>
 	
 <div class="msrs-content">
