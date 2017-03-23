@@ -10,9 +10,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <link rel="stylesheet" type="text/css" media="screen"
-	href="<%=request.getContextPath()%>/resources/msrs/css/style_new.css"/>
-
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+	href="<%=request.getContextPath()%>/resources/msrs/css/styles.css"/>
+<link rel="stylesheet" type="text/css" media="screen"
+	href="<%=request.getContextPath()%>/resources/msrs/css/bootstrap.min.css"/>
+	
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js_new/paging.js"></script>
+<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/> -->
 </head>
 <body onload="startTime()">
 	<table style="width: 100%; border: 0; overflow: hidden;">
