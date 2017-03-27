@@ -23,5 +23,7 @@ public interface HomeService {
 	
 	public List<OfficeLocation> getAllOfficeLocation();
 	public OfficeLocation getOfficeLocationById(Integer id);
+	List<Incident> getAllClaimsByEmp(Integer empid);
+	public Object getAllDependentsByEmp(Integer empid);
 
 }

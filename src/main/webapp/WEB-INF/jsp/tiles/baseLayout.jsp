@@ -17,7 +17,8 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js_new/paging.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/paging.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/msrs.js"></script>
 <!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/> -->
 </head>
 <body onload="startTime()">
@@ -26,8 +27,7 @@
 			<td colspan="2" class="head_back"><tiles:insertAttribute name="header" /></td>
 		</tr>
 		<tr>
-			<td width="14%" background="<%=request.getContextPath()%>/resources/msrs/images/back12.jpg"
-				class="menu_back">
+			<td width="14%" class="menu_back">
 				<tiles:insertAttribute name="menu" />
 			</td>
 			<td width="86%">
