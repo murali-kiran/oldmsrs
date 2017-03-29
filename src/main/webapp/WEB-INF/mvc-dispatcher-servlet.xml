@@ -82,7 +82,7 @@
 		<security:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN" />
 		<!-- <security:intercept-url pattern="/rest/**" access="permitAll" /> -->
 		<security:form-login login-page="/login" default-target-url="/home/createEmp" authentication-failure-url="/loginfailed" always-use-default-target="true" />
-		<security:logout logout-url="/logout" invalidate-session="true" logout-success-url="/login" />
+		<security:logout delete-cookies="true" invalidate-session="true" logout-success-url="/login" />
 	</security:http>
 
 	<security:authentication-manager>
@@ -118,11 +118,4 @@
 				<value>.jsp</value>
 			</property>
 	</bean>
-	<!-- <bean id="applicationProperties" class="com.sumadga.utils.ApplicationProperties">
-		<property name="maxSubFolders" value="20000"/>
-		<property name="mediaCompletePath" value="/home/kiran/mms/"/>
-		<property name="mediaAbsolutePath" value="/resources/mms/"/>
-		<property name="isVideoTranscodingEnabled" value="true" />
-		<property name="videoTranscodingScriptPath" value="/home/kiran/sumadga/CMS/src/main/resource" />
-	</bean> -->
 </beans>
