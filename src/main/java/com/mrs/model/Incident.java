@@ -31,7 +31,8 @@ public class Incident implements Serializable {
 
 	private byte ishomevisitrequired;
 
-	private Timestamp modifiedtime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	//bi-directional many-to-one association to BenefitType
 	@ManyToOne
@@ -91,11 +92,11 @@ public class Incident implements Serializable {
 		this.ishomevisitrequired = ishomevisitrequired;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
 

@@ -77,7 +77,19 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public Incident createIncident(Incident incident) {
 		logger.info("Saving Incident "+incident);
-		incidentRepo.save(incident);
+		
+		incident.setModifiedtime(new Date());
+		incident.setOfficeLocation1(officeLocationRepo.findById(incident.getOfficeLocation1().getOfficelocationid()));
+		incident.setOfficeLocation1(officeLocationRepo.findById(incident.getOfficeLocation2().getOfficelocationid()));
+		incident.setBenefitType(benefitTypeRepo.findById(incident.getBenefitType().getBenefittypeid()));
+		if(incident.getIncidentid()==0){
+			incident.setCreatedtime(new Date());
+			incidentRepo.save(incident);
+		}else{
+			incidentRepo.update(incident);
+		}
+			
+		
 		return incident;
 	}
 
@@ -100,5 +112,12 @@ public class HomeServiceImpl implements HomeService{
 	public OfficeLocation getOfficeLocationById(Integer id) {
 		return officeLocationRepo.findById(id);
 	}
-
+	@Override
+	public List<Incident> getAllClaimsByEmp(Integer empid) {
+		return (List<Incident>)incidentRepo.findByProperty("empid", empid, 1);
+	}
+	@Override
+	public List<Nominee> getAllDependentsByEmp(Integer empid) {
+		return (List<Nominee>)nomineeRepo.findByProperty("empid", empid, 1);
+	}
 }
