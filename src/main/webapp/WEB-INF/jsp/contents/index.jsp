@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org" ng-app="msrsHomeApp">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>MSRS|Home</title>
+<title>MRBGS|Home</title>
 <!-- <script src="../js/angular.min.js"></script> -->
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />

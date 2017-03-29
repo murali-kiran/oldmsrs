@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
 
-<title>MSRS|Create Emp</title>
+<title>MRBGS |Create Emp</title>
 <%-- <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/msrs/css/style_new.css" /> --%>
 </head>
 

@@ -3,7 +3,7 @@
 
 <!DOCTYPE HTML>
 <html>
-<title>YMC INDIA</title>
+<title>MRBGS</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/app.js"></script>

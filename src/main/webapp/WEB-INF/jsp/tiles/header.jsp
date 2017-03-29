@@ -5,6 +5,6 @@
 		to Master_admin Time:
 		<div style="display: inline;" id="txt"></div>
 	</span><a style="float: right; padding-right: 20px; padding-top: 5px;"
-		href="<%=request.getContextPath()%>/home/logout">Logout</a>
+		href="<%=request.getContextPath()%>/<c:url value="j_spring_security_logout" />">Logout</a>
 </div>
 
