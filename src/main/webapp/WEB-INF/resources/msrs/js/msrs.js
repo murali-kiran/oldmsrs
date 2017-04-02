@@ -4,7 +4,6 @@
 
 var acc = document.getElementsByClassName("accordion");
 var i;
-
 for (i = 0; i < acc.length; i++) {
 	acc[i].onclick = function() {
 		/*
@@ -77,11 +76,30 @@ function callAjaxGet(data, url) {
 		}
 	});
 }
-function showCreateClaim() {
-	$('#incidentdiv').show();
+var showCreateClaim = true;
+function showCreateClaim() {alert("hi");
+	if(showCreateClaim){
+		$('#incidentdiv').show();
+		showCreateClaim = false;
+	}else{
+		$('#incidentdiv').hide();
+		showCreateClaim = true;
+	}
+	
 }
-function showCreateDependent() {
-	$('#dependentdiv').show();
+var showCreateDep = true;
+function showCreateDependent(size) {
+	if(size < 10){
+		if(showCreateDep){
+			$('#dependentdiv').show();
+			showCreateDep = false;
+		}else{
+			$('#dependentdiv').hide();
+			showCreateDep = true;
+		}
+	}else{
+		alert("Could not add more dependents !");
+	}
 }
 $(function() {
 	$( ".date-picker" ).datepicker({ dateFormat: 'yy-mm-dd' });
