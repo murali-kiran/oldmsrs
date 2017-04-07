@@ -1,20 +1,13 @@
 package com.mrs.rest.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mrs.model.BenefitType;
 import com.mrs.model.Emp;
-import com.mrs.model.Incident;
-import com.mrs.model.Nominee;
-import com.mrs.model.OfficeLocation;
 import com.mrs.service.HomeService;
 
 @Controller
@@ -41,7 +34,7 @@ public class HomeRestController {
     public Emp getEmp(@RequestParam(value="empid",required=true) Integer empid) {
         return homeService.getEmpById(empid);
     }
-	@RequestMapping(value="/getAllBenefitType",method = RequestMethod.GET)
+	/*@RequestMapping(value="/getAllBenefitType",method = RequestMethod.GET)
     public @ResponseBody List<BenefitType> getAllBenefitType() {
         return homeService.getAllBenefitType();
     }
@@ -64,5 +57,5 @@ public class HomeRestController {
     @RequestMapping(value="/createDependent",method = RequestMethod.POST, produces="application/json", consumes="application/json")
     public @ResponseBody Nominee createNominee(@RequestBody Nominee nominee) {
         return homeService.createNominee(nominee);
-    }
+    }*/
 }

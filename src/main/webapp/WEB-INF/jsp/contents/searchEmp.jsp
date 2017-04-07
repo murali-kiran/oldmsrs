@@ -18,6 +18,10 @@
 					action="${pageContext.servletContext.contextPath}/home/searchEmp">
 					<table>
 						<tr>
+							<td>Employee Id:</td>
+							<td><form:input path="empid" /></td>
+						</tr>
+						<tr>
 							<td>First Name:</td>
 							<td><form:input path="firstname" /></td>
 						</tr>
@@ -28,18 +32,6 @@
 						<tr>
 							<td>DOB:</td>
 							<td><form:input path="dob" /></td>
-						</tr>
-						<tr>
-							<td>Email:</td>
-							<td><form:input path="email" /></td>
-						</tr>
-						<tr>
-							<td>Aadhaar:</td>
-							<td><form:input path="aatharnumber" /></td>
-						</tr>
-						<tr>
-							<td>PAN:</td>
-							<td><form:input path="pancard" /></td>
 						</tr>
 						<tr>
 							<td><input type="submit" value="Submit" /> <input
@@ -56,9 +48,9 @@
 				<table id="results" style="border: 1px solid;"
 					class="table table-bordered table-striped">
 					<tr>
-						<!-- <th>ID</th> -->
-						<th>First Name</th>
-						<th>Last Name</th>
+						<th>ID</th> 
+						<th>Employee Name</th>
+						<th>Gender</th>
 						<th>DOB</th>
 						<th>Email</th>
 						<th>Phone</th>
@@ -67,8 +59,12 @@
 
 					<c:forEach items="${emps}" var="emp">
 						<tr>
-							<td><c:out value="${emp.firstname}" /></td>
-							<td><c:out value="${emp.lastname}" /></td>
+							<td><c:out value="${emp.empid}" /></td>
+							<td><c:if test="${emp.title !=null}"><c:out value="${emp.title}" /> </c:if>
+								<c:if test="${emp.firstname !=null}"><c:out value="${emp.firstname}" /> </c:if>
+								<c:if test="${emp.lastname !=null}"><c:out value="${emp.lastname}" /> </c:if>
+							</td>
+							<td><c:out value="${emp.gender}" /></td>
 							<td><c:out value="${emp.dob}" /></td>
 							<td><c:out value="${emp.email}" /></td>
 							<td><c:out value="${emp.phone}" /></td>

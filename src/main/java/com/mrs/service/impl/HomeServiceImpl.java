@@ -8,16 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mrs.model.BenefitType;
+import com.mrs.model.Claim;
+import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
-import com.mrs.model.Incident;
-import com.mrs.model.Nominee;
-import com.mrs.model.OfficeLocation;
-import com.mrs.repo.BenefitTypeRepo;
+import com.mrs.repo.AppointmentRepo;
+import com.mrs.repo.AppointmentTypeRepo;
+import com.mrs.repo.ClaimRepo;
+import com.mrs.repo.ClaimTypeRepo;
 import com.mrs.repo.EmpRepo;
-import com.mrs.repo.IncidentRepo;
-import com.mrs.repo.NomineeRepo;
-import com.mrs.repo.OfficeLocationRepo;
 import com.mrs.service.HomeService;
 
 @Service
@@ -29,16 +27,16 @@ public class HomeServiceImpl implements HomeService{
 	EmpRepo empRepo;
 	
 	@Autowired
-	BenefitTypeRepo benefitTypeRepo;
+	AppointmentTypeRepo benefitTypeRepo;
 	
 	@Autowired
-	IncidentRepo incidentRepo;
+	AppointmentRepo incidentRepo;
 	
 	@Autowired
-	NomineeRepo nomineeRepo;
+	ClaimRepo claimRepo;
 	
 	@Autowired
-	OfficeLocationRepo officeLocationRepo;
+	ClaimTypeRepo officeLocationRepo;
 	
 	@Override
 	public List<Emp> getAllEmployees() {
@@ -66,58 +64,11 @@ public class HomeServiceImpl implements HomeService{
 		empRepo.save(emp);
 		return  emp;
 	}
+
+	@Override
+	public Dependent createNominee(Dependent dependent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
-	@Override
-	public Nominee createNominee(Nominee nominee) {
-		logger.info("Saving Nominee "+nominee);
-		nomineeRepo.save(nominee);
-		return nominee;
-	}
-
-	@Override
-	public Incident createIncident(Incident incident) {
-		logger.info("Saving Incident "+incident);
-		
-		incident.setModifiedtime(new Date());
-		incident.setOfficeLocation1(officeLocationRepo.findById(incident.getOfficeLocation1().getOfficelocationid()));
-		incident.setOfficeLocation1(officeLocationRepo.findById(incident.getOfficeLocation2().getOfficelocationid()));
-		incident.setBenefitType(benefitTypeRepo.findById(incident.getBenefitType().getBenefittypeid()));
-		if(incident.getIncidentid()==0){
-			incident.setCreatedtime(new Date());
-			incidentRepo.save(incident);
-		}else{
-			incidentRepo.update(incident);
-		}
-			
-		
-		return incident;
-	}
-
-	@Override
-	public List<BenefitType> getAllBenefitType() {
-		return (List<BenefitType>)benefitTypeRepo.findAll();
-	}
-
-	@Override
-	public BenefitType getBenefitTypeById(Integer id) {
-		return benefitTypeRepo.findById(id);
-	}
-
-	@Override
-	public List<OfficeLocation> getAllOfficeLocation() {
-		return (List<OfficeLocation>)officeLocationRepo.findAll();
-	}
-
-	@Override
-	public OfficeLocation getOfficeLocationById(Integer id) {
-		return officeLocationRepo.findById(id);
-	}
-	@Override
-	public List<Incident> getAllClaimsByEmp(Integer empid) {
-		return (List<Incident>)incidentRepo.findByProperty("empid", empid, 1);
-	}
-	@Override
-	public List<Nominee> getAllDependentsByEmp(Integer empid) {
-		return (List<Nominee>)nomineeRepo.findByProperty("empid", empid, 1);
-	}
 }

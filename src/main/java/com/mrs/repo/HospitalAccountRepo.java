@@ -13,19 +13,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mrs.model.Incident;
+import com.mrs.model.HospitalAccount;
 
 @Repository
-public class IncidentRepo {
+public class HospitalAccountRepo {
 
-	private static final Logger logger = Logger.getLogger(IncidentRepo.class);
+	private static final Logger logger = Logger.getLogger(HospitalAccountRepo.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void save(Incident entity) {
-		logger.info("saving Incident instance");
+	public void save(HospitalAccount entity) {
+		logger.info("saving HospitalAccount instance");
 		try {
 			entityManager.persist(entity);
 			logger.info("save successful");
@@ -36,11 +36,11 @@ public class IncidentRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void delete(Incident entity) {
-		logger.info("deleting Incident instance");
+	public void delete(HospitalAccount entity) {
+		logger.info("deleting HospitalAccount instance");
 		try {
-			entity = entityManager.getReference(Incident.class,
-					entity.getIncidentid());
+			entity = entityManager.getReference(HospitalAccount.class,
+					entity.getHospitalaccountid());
 			entityManager.remove(entity);
 			logger.info("delete successful");
 		} catch (RuntimeException re) {
@@ -50,10 +50,10 @@ public class IncidentRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public Incident update(Incident entity) {
-		logger.info("updating Incident instance");
+	public HospitalAccount update(HospitalAccount entity) {
+		logger.info("updating HospitalAccount instance");
 		try {
-			Incident result = entityManager.merge(entity);
+			HospitalAccount result = entityManager.merge(entity);
 			logger.info("update successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -62,10 +62,10 @@ public class IncidentRepo {
 		}
 	}
 
-	public Incident findById(Integer id) {
-		logger.info("finding Incident instance with id: " + id);
+	public HospitalAccount findById(Integer id) {
+		logger.info("finding HospitalAccount instance with id: " + id);
 		try {
-			Incident instance = entityManager.find(Incident.class, id);
+			HospitalAccount instance = entityManager.find(HospitalAccount.class, id);
 			return instance;
 		} catch (RuntimeException re) {
 			logger.error("find failed", re);
@@ -74,19 +74,19 @@ public class IncidentRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Incident> findByProperty(String propertyName,
+	public List<HospitalAccount> findByProperty(String propertyName,
 			final Object value, final int... rowStartIdxAndCount) {
-		logger.info("finding Incident instance with property: " + propertyName
+		logger.info("finding HospitalAccount instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
 						
-			String queryString = "select model from Incident model where model."
+			String queryString = "select model from HospitalAccount model where model."
 					+ propertyName + "= " + value;
 			if(value.getClass().getName().equals("java.lang.String"))
-				queryString = "select model from Incident model where model."
+				queryString = "select model from HospitalAccount model where model."
 						+ propertyName + "= '" + value+"'";
 			Query query = entityManager
-					.createQuery(queryString, Incident.class);
+					.createQuery(queryString, HospitalAccount.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {
@@ -108,12 +108,12 @@ public class IncidentRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Incident> findAll(final int... rowStartIdxAndCount) {
-		logger.info("finding all Incident instances");
+	public List<HospitalAccount> findAll(final int... rowStartIdxAndCount) {
+		logger.info("finding all HospitalAccount instances");
 		try {
-			final String queryString = "select model from Incident model";
+			final String queryString = "select model from HospitalAccount model";
 			Query query = entityManager
-					.createQuery(queryString, Incident.class);
+					.createQuery(queryString, HospitalAccount.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {

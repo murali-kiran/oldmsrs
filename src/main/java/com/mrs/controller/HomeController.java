@@ -12,14 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mrs.model.Emp;
-import com.mrs.model.Incident;
-import com.mrs.model.Nominee;
 import com.mrs.service.HomeService;
 
 @Controller
@@ -47,11 +44,6 @@ public class HomeController {
 	@RequestMapping(value="/viewEmp",method = RequestMethod.GET)
     public String getEmp(@RequestParam(value="empid",required=true) Integer empid, Model model) {
 		model.addAttribute("emp", homeService.getEmpById(empid));
-		model.addAttribute("benifitTypes", homeService.getAllBenefitType());
-		model.addAttribute("claims", homeService.getAllClaimsByEmp(empid));
-		model.addAttribute("dependents", homeService.getAllDependentsByEmp(empid));
-		model.addAttribute("incident", new Incident());
-		model.addAttribute("dependent", new Nominee());
 		return "viewEmp";
     }
 	@RequestMapping(method = RequestMethod.GET, value = "/empList")

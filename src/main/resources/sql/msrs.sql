@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
 --
--- Host: localhost    Database: msrs
+-- Host: localhost    Database: oldmsrs
 -- ------------------------------------------------------
 -- Server version	5.7.17
 
@@ -16,6 +16,71 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `appointment`
+--
+
+DROP TABLE IF EXISTS `appointment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `appointment` (
+  `appointmentid` int(11) NOT NULL AUTO_INCREMENT,
+  `beneficiary` int(11) NOT NULL,
+  `nature` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 for regular, 1 for emergency',
+  `appointmenttypeid` int(11) NOT NULL,
+  `details` varchar(450) DEFAULT NULL,
+  `appointmentdate` datetime NOT NULL,
+  `hospitaltype` int(11) NOT NULL,
+  `hospitalid` int(11) DEFAULT NULL,
+  `hospitalname` varchar(500) DEFAULT NULL,
+  `doctorname` varchar(500) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `department` varchar(45) DEFAULT NULL,
+  `emailid` varchar(500) DEFAULT NULL,
+  `createdtime` datetime NOT NULL,
+  `modifiedtime` timestamp NOT NULL,
+  PRIMARY KEY (`appointmentid`),
+  KEY `fk_appointment_1_idx` (`beneficiary`),
+  KEY `fk_appointment_2_idx` (`appointmenttypeid`),
+  CONSTRAINT `fk_appointment_1` FOREIGN KEY (`beneficiary`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_appointment_2` FOREIGN KEY (`appointmenttypeid`) REFERENCES `appointment_type` (`appointmenttypeid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `appointment`
+--
+
+LOCK TABLES `appointment` WRITE;
+/*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `appointment_type`
+--
+
+DROP TABLE IF EXISTS `appointment_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `appointment_type` (
+  `appointmenttypeid` int(11) NOT NULL AUTO_INCREMENT,
+  `appointmenttype` varchar(45) NOT NULL,
+  `createdtime` datetime NOT NULL,
+  `modifiedtime` timestamp NOT NULL,
+  PRIMARY KEY (`appointmenttypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `appointment_type`
+--
+
+LOCK TABLES `appointment_type` WRITE;
+/*!40000 ALTER TABLE `appointment_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appointment_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `authorities`
 --
 
@@ -25,6 +90,8 @@ DROP TABLE IF EXISTS `authorities`;
 CREATE TABLE `authorities` (
   `username` varchar(256) NOT NULL,
   `authority` varchar(256) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `username` (`username`),
   CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -40,29 +107,101 @@ LOCK TABLES `authorities` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `benefit_type`
+-- Table structure for table `claim`
 --
 
-DROP TABLE IF EXISTS `benefit_type`;
+DROP TABLE IF EXISTS `claim`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `benefit_type` (
-  `benefittypeid` int(11) NOT NULL AUTO_INCREMENT,
-  `benefittype` varchar(45) NOT NULL,
+CREATE TABLE `claim` (
+  `claimid` int(11) NOT NULL AUTO_INCREMENT,
+  `claimtypeid` int(11) NOT NULL,
+  `description` varchar(2000) DEFAULT NULL,
+  `beneficiary` int(11) NOT NULL,
+  `dateofoccurance` date NOT NULL,
+  `document` varchar(45) DEFAULT NULL,
+  `auditby` varchar(1000) DEFAULT NULL,
+  `status` varchar(100) NOT NULL,
+  `createdtime` datetime NOT NULL,
+  `modifiedtime` timestamp NOT NULL,
+  `auditcomments` varchar(1000) DEFAULT NULL,
+  `activeappointment` tinyint(1) NOT NULL,
+  `prognosis` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`claimid`),
+  KEY `fk_claim_1_idx` (`claimtypeid`),
+  KEY `fk_claim_2_idx` (`beneficiary`),
+  CONSTRAINT `fk_claim_1` FOREIGN KEY (`claimtypeid`) REFERENCES `claim_type` (`claimtypeid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_claim_2` FOREIGN KEY (`beneficiary`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `claim`
+--
+
+LOCK TABLES `claim` WRITE;
+/*!40000 ALTER TABLE `claim` DISABLE KEYS */;
+/*!40000 ALTER TABLE `claim` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `claim_type`
+--
+
+DROP TABLE IF EXISTS `claim_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `claim_type` (
+  `claimtypeid` int(11) NOT NULL AUTO_INCREMENT,
+  `claimtype` varchar(45) NOT NULL,
   `createdtime` datetime NOT NULL,
   `modifiedtime` datetime NOT NULL,
-  PRIMARY KEY (`benefittypeid`)
+  PRIMARY KEY (`claimtypeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `benefit_type`
+-- Dumping data for table `claim_type`
 --
 
-LOCK TABLES `benefit_type` WRITE;
-/*!40000 ALTER TABLE `benefit_type` DISABLE KEYS */;
-INSERT INTO `benefit_type` VALUES (1,'Fever','2017-02-05 19:29:54','2017-02-05 19:29:54');
-/*!40000 ALTER TABLE `benefit_type` ENABLE KEYS */;
+LOCK TABLES `claim_type` WRITE;
+/*!40000 ALTER TABLE `claim_type` DISABLE KEYS */;
+INSERT INTO `claim_type` VALUES (1,'Fever','2017-02-05 19:29:54','2017-02-05 19:29:54');
+/*!40000 ALTER TABLE `claim_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dependent`
+--
+
+DROP TABLE IF EXISTS `dependent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dependent` (
+  `dependentid` int(11) NOT NULL AUTO_INCREMENT,
+  `empid` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `relationship` varchar(50) NOT NULL,
+  `dob` date NOT NULL,
+  `phone` bigint(20) DEFAULT NULL,
+  `createdtime` datetime NOT NULL,
+  `modifiedtime` timestamp NOT NULL,
+  PRIMARY KEY (`dependentid`),
+  KEY `fk_nominee_emp_idx` (`empid`),
+  CONSTRAINT `fk_nominee_emp` FOREIGN KEY (`empid`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dependent`
+--
+
+LOCK TABLES `dependent` WRITE;
+/*!40000 ALTER TABLE `dependent` DISABLE KEYS */;
+INSERT INTO `dependent` VALUES (1,1,'sanju','','','0','0000-00-00',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,2,'Mur','','','Friend','0000-00-00',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00');
+/*!40000 ALTER TABLE `dependent` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -74,25 +213,19 @@ DROP TABLE IF EXISTS `emp`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `emp` (
   `empid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL,
   `firstname` varchar(200) NOT NULL,
   `lastname` varchar(200) NOT NULL,
+  `middlename` varchar(100) DEFAULT NULL,
+  `gender` tinyint(1) NOT NULL COMMENT '0 for male, 1 for female and 2 for other',
   `dob` date NOT NULL,
   `phone` varchar(45) NOT NULL,
   `email` varchar(500) NOT NULL,
-  `adress1` varchar(200) DEFAULT NULL,
-  `adress2` varchar(200) DEFAULT NULL,
-  `district` varchar(200) NOT NULL,
-  `state` varchar(200) NOT NULL,
-  `pincode` varchar(45) NOT NULL,
-  `aatharnumber` bigint(20) NOT NULL,
-  `pancard` varchar(12) DEFAULT NULL,
-  `doj` date NOT NULL COMMENT 'date of joining',
-  `dor` date DEFAULT NULL COMMENT 'date of releaving',
-  `createdtime` timestamp NOT NULL,
+  `adress` varchar(2000) DEFAULT NULL,
+  `createdtime` datetime NOT NULL,
   `modifiedtime` timestamp NOT NULL,
-  `gender` tinyint(1) NOT NULL COMMENT '0 for male, 1 for female and 2 for other',
   PRIMARY KEY (`empid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +234,7 @@ CREATE TABLE `emp` (
 
 LOCK TABLES `emp` WRITE;
 /*!40000 ALTER TABLE `emp` DISABLE KEYS */;
-INSERT INTO `emp` VALUES (1,'Kiran','Kumar','1999-01-01','911234567890','kiran@kumar.com','abbc','bd','cf','d','e',12345678912,'askdfkds','1999-01-01','2099-01-01','2017-01-25 18:30:00','2017-03-12 13:04:25',0),(2,'Murali','Raju','1999-01-01','911234567891','murali@raju.com','c','e','f','g','h',12345678911,'askdfkfs','1919-01-01','2019-01-01','2017-01-28 10:03:40','2017-01-28 10:03:40',0),(3,'Vagdhan','t','1899-01-01','921234567891','vagdhan@t.com','c','e','f','g','h',12345678941,'askdfkfs','1919-01-01','2019-01-01','2017-01-28 10:08:17','2017-01-28 10:08:17',0),(4,'satish','s','1799-01-01','931234567891','satish@s.com','c','e','f','g','h',12345678943,'askdfk6s','1919-01-01','2019-01-01','2017-01-28 10:08:53','2017-01-28 10:08:53',0),(5,'satish1','s1','1799-01-01','931214567891','satish1@s1.com','c','e','f','g','h',12345678933,'askddk6s','1919-01-01','2019-01-01','2017-01-28 10:09:16','2017-01-28 10:09:16',0),(6,'datish1','d1','1799-01-01','941214567891','datish1@d1.com','c','e','f','g','h',13345678933,'askddk6s','1919-01-01','2019-01-01','2017-01-28 10:10:47','2017-01-28 10:10:47',0),(7,'satish','b','1992-01-02','91123456987','satish@b.com','12','madhapur','hyderrabad','ts','5000081',321456789321,'asbc123sd','2012-01-02',NULL,'2017-02-09 02:31:48','2017-02-09 02:31:48',0),(8,'Muralidhar12','Raju','1984-01-03','12345678963','murali@code','abb','madhapur','hyderrabad','ts','5000081',963852741123,'abc123456','2010-01-02',NULL,'2017-02-08 18:30:00','2017-02-09 16:41:47',0);
+INSERT INTO `emp` VALUES (1,'','Kiran','Kumar',NULL,0,'1999-01-01','911234567890','kiran@kumar.com','abbc','2017-01-26 00:00:00','2017-03-12 13:04:25'),(2,'','Murali','Raju',NULL,0,'1999-01-01','911234567891','murali@raju.com','c','2017-01-28 15:33:40','2017-01-28 10:03:40'),(3,'','Vagdhan','t',NULL,0,'1899-01-01','921234567891','vagdhan@t.com','c','2017-01-28 15:38:17','2017-01-28 10:08:17'),(4,'','satish','s',NULL,0,'1799-01-01','931234567891','satish@s.com','c','2017-01-28 15:38:53','2017-01-28 10:08:53'),(5,'','satish1','s1',NULL,0,'1799-01-01','931214567891','satish1@s1.com','c','2017-01-28 15:39:16','2017-01-28 10:09:16'),(6,'','datish1','d1',NULL,0,'1799-01-01','941214567891','datish1@d1.com','c','2017-01-28 15:40:47','2017-01-28 10:10:47'),(7,'','satish','b',NULL,0,'1992-01-02','91123456987','satish@b.com','12','2017-02-09 08:01:48','2017-02-09 02:31:48'),(8,'','Muralidhar12','Raju',NULL,0,'1984-01-03','12345678963','murali@code','abb','2017-02-09 00:00:00','2017-02-09 16:41:47'),(9,'Mr','kiran','p','kumar',0,'2000-10-01','911234567896','abc@def.com','checking','2017-04-07 08:38:54','2017-04-07 03:08:54');
 /*!40000 ALTER TABLE `emp` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,9 +248,11 @@ DROP TABLE IF EXISTS `group_authorities`;
 CREATE TABLE `group_authorities` (
   `group_id` int(12) NOT NULL,
   `authority` varchar(200) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `group_id` (`group_id`),
   CONSTRAINT `group_authorities_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +261,7 @@ CREATE TABLE `group_authorities` (
 
 LOCK TABLES `group_authorities` WRITE;
 /*!40000 ALTER TABLE `group_authorities` DISABLE KEYS */;
-INSERT INTO `group_authorities` VALUES (1,'ROLE_ADMIN');
+INSERT INTO `group_authorities` VALUES (1,'ROLE_ADMIN',1);
 /*!40000 ALTER TABLE `group_authorities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,101 +317,127 @@ INSERT INTO `groups` VALUES (1,'Users'),(2,'Administrators');
 UNLOCK TABLES;
 
 --
--- Table structure for table `incident`
+-- Table structure for table `hospital`
 --
 
-DROP TABLE IF EXISTS `incident`;
+DROP TABLE IF EXISTS `hospital`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `incident` (
-  `incidentid` int(11) NOT NULL AUTO_INCREMENT,
-  `details` varchar(2000) DEFAULT NULL,
-  `benefittypeid` int(11) NOT NULL,
-  `administrativeoffice` int(11) NOT NULL,
-  `customeroffice` int(11) NOT NULL,
-  `ishomevisitrequired` tinyint(1) NOT NULL,
-  `firstdayofincident` date NOT NULL,
+CREATE TABLE `hospital` (
+  `hospitalid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) NOT NULL,
+  `hospitaltypeid` int(11) NOT NULL,
+  `phone1` varchar(45) DEFAULT NULL,
+  `phone2` varchar(45) DEFAULT NULL,
+  `faxno` varchar(45) DEFAULT NULL,
+  `emailid` varchar(500) DEFAULT NULL,
+  `workingdays` varchar(500) DEFAULT NULL,
+  `workinghours` varchar(45) DEFAULT NULL,
+  `addressline1` varchar(100) DEFAULT NULL,
+  `addressline2` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `district` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
   `createdtime` datetime NOT NULL,
   `modifiedtime` timestamp NOT NULL,
-  `empid` int(11) NOT NULL,
-  PRIMARY KEY (`incidentid`),
-  KEY `fk_incident_1_idx` (`benefittypeid`),
-  KEY `fk_incident_2_idx` (`administrativeoffice`,`customeroffice`),
-  KEY `fk_incident_3_idx` (`customeroffice`),
-  CONSTRAINT `fk_incident_1` FOREIGN KEY (`benefittypeid`) REFERENCES `benefit_type` (`benefittypeid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_incident_2` FOREIGN KEY (`administrativeoffice`) REFERENCES `office_location` (`officelocationid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_incident_3` FOREIGN KEY (`customeroffice`) REFERENCES `office_location` (`officelocationid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`hospitalid`),
+  KEY `fk_hospital_1_idx` (`hospitaltypeid`),
+  CONSTRAINT `fk_hospital_1` FOREIGN KEY (`hospitaltypeid`) REFERENCES `hospital_type` (`hospitaltypeid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `incident`
+-- Dumping data for table `hospital`
 --
 
-LOCK TABLES `incident` WRITE;
-/*!40000 ALTER TABLE `incident` DISABLE KEYS */;
-INSERT INTO `incident` VALUES (1,'test',1,1,1,1,'2017-02-26','2017-02-26 11:13:46','2017-02-25 18:30:00',1);
-/*!40000 ALTER TABLE `incident` ENABLE KEYS */;
+LOCK TABLES `hospital` WRITE;
+/*!40000 ALTER TABLE `hospital` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hospital` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `nominee`
+-- Table structure for table `hospital_account`
 --
 
-DROP TABLE IF EXISTS `nominee`;
+DROP TABLE IF EXISTS `hospital_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `nominee` (
-  `nomineeid` int(11) NOT NULL AUTO_INCREMENT,
-  `empid` int(11) NOT NULL,
-  `name` varchar(1000) NOT NULL,
-  `relationship` varchar(50) NOT NULL,
-  `age` tinyint(2) NOT NULL,
-  `address1` varchar(200) DEFAULT NULL,
-  `address2` varchar(200) DEFAULT NULL,
-  `district` varchar(200) DEFAULT NULL,
-  `state` varchar(45) DEFAULT NULL,
-  `pincode` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`nomineeid`),
-  KEY `fk_nominee_emp_idx` (`empid`),
-  CONSTRAINT `fk_nominee_emp` FOREIGN KEY (`empid`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE `hospital_account` (
+  `hospitalaccountid` int(11) NOT NULL AUTO_INCREMENT,
+  `hospitalid` int(11) NOT NULL,
+  `accountnumber` varchar(45) NOT NULL,
+  `bank` varchar(100) NOT NULL,
+  `branch` varchar(45) NOT NULL,
+  `ifsccode` varchar(45) NOT NULL,
+  `createdtime` datetime NOT NULL,
+  `modifiedtime` timestamp NOT NULL,
+  PRIMARY KEY (`hospitalaccountid`),
+  KEY `fk_hospital_account_1_idx` (`hospitalid`),
+  CONSTRAINT `fk_hospital_account_1` FOREIGN KEY (`hospitalid`) REFERENCES `hospital` (`hospitalid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `nominee`
+-- Dumping data for table `hospital_account`
 --
 
-LOCK TABLES `nominee` WRITE;
-/*!40000 ALTER TABLE `nominee` DISABLE KEYS */;
-INSERT INTO `nominee` VALUES (1,1,'sanju','0',20,'a','b','c','d','e'),(2,2,'Mur','Friend',32,'street1','add2','hyd','ts','500001');
-/*!40000 ALTER TABLE `nominee` ENABLE KEYS */;
+LOCK TABLES `hospital_account` WRITE;
+/*!40000 ALTER TABLE `hospital_account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hospital_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `office_location`
+-- Table structure for table `hospital_department`
 --
 
-DROP TABLE IF EXISTS `office_location`;
+DROP TABLE IF EXISTS `hospital_department`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `office_location` (
-  `officelocationid` int(11) NOT NULL AUTO_INCREMENT,
-  `officelocation` varchar(500) NOT NULL,
+CREATE TABLE `hospital_department` (
+  `hospitaldepartmentid` int(11) NOT NULL AUTO_INCREMENT,
+  `hospitalid` int(11) NOT NULL,
+  `department` varchar(500) NOT NULL,
   `createdtime` datetime NOT NULL,
   `modifiedtime` timestamp NOT NULL,
-  PRIMARY KEY (`officelocationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`hospitaldepartmentid`),
+  KEY `fk_hospital_department_1_idx` (`hospitalid`),
+  CONSTRAINT `fk_hospital_department_1` FOREIGN KEY (`hospitalid`) REFERENCES `hospital` (`hospitalid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `office_location`
+-- Dumping data for table `hospital_department`
 --
 
-LOCK TABLES `office_location` WRITE;
-/*!40000 ALTER TABLE `office_location` DISABLE KEYS */;
-INSERT INTO `office_location` VALUES (1,'mehdipatnam','2017-02-05 19:28:53','2017-02-05 13:58:53'),(2,'hitechcity','2017-02-05 19:29:04','2017-02-05 13:59:04');
-/*!40000 ALTER TABLE `office_location` ENABLE KEYS */;
+LOCK TABLES `hospital_department` WRITE;
+/*!40000 ALTER TABLE `hospital_department` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hospital_department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hospital_type`
+--
+
+DROP TABLE IF EXISTS `hospital_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hospital_type` (
+  `hospitaltypeid` int(11) NOT NULL AUTO_INCREMENT,
+  `hospitaltype` varchar(45) NOT NULL,
+  `createdtime` datetime NOT NULL,
+  `modifiedtime` timestamp NOT NULL,
+  PRIMARY KEY (`hospitaltypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hospital_type`
+--
+
+LOCK TABLES `hospital_type` WRITE;
+/*!40000 ALTER TABLE `hospital_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hospital_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -313,4 +474,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-22  0:24:20
+-- Dump completed on 2017-04-07 22:26:47
