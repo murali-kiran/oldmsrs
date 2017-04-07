@@ -13,19 +13,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mrs.model.OfficeLocation;
+import com.mrs.model.Dependent;
 
 @Repository
-public class OfficeLocationRepo {
+public class DependentRepo {
 
-	private static final Logger logger = Logger.getLogger(OfficeLocationRepo.class);
+	private static final Logger logger = Logger.getLogger(DependentRepo.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void save(OfficeLocation entity) {
-		logger.info("saving OfficeLocation instance");
+	public void save(Dependent entity) {
+		logger.info("saving Dependent instance");
 		try {
 			entityManager.persist(entity);
 			logger.info("save successful");
@@ -36,11 +36,11 @@ public class OfficeLocationRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void delete(OfficeLocation entity) {
-		logger.info("deleting OfficeLocation instance");
+	public void delete(Dependent entity) {
+		logger.info("deleting Dependent instance");
 		try {
-			entity = entityManager.getReference(OfficeLocation.class,
-					entity.getOfficelocationid());
+			entity = entityManager.getReference(Dependent.class,
+					entity.getDependentid());
 			entityManager.remove(entity);
 			logger.info("delete successful");
 		} catch (RuntimeException re) {
@@ -50,10 +50,10 @@ public class OfficeLocationRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public OfficeLocation update(OfficeLocation entity) {
-		logger.info("updating OfficeLocation instance");
+	public Dependent update(Dependent entity) {
+		logger.info("updating Dependent instance");
 		try {
-			OfficeLocation result = entityManager.merge(entity);
+			Dependent result = entityManager.merge(entity);
 			logger.info("update successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -62,10 +62,10 @@ public class OfficeLocationRepo {
 		}
 	}
 
-	public OfficeLocation findById(Integer id) {
-		logger.info("finding OfficeLocation instance with id: " + id);
+	public Dependent findById(Integer id) {
+		logger.info("finding Dependent instance with id: " + id);
 		try {
-			OfficeLocation instance = entityManager.find(OfficeLocation.class, id);
+			Dependent instance = entityManager.find(Dependent.class, id);
 			return instance;
 		} catch (RuntimeException re) {
 			logger.error("find failed", re);
@@ -74,19 +74,19 @@ public class OfficeLocationRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<OfficeLocation> findByProperty(String propertyName,
+	public List<Dependent> findByProperty(String propertyName,
 			final Object value, final int... rowStartIdxAndCount) {
-		logger.info("finding OfficeLocation instance with property: " + propertyName
+		logger.info("finding Dependent instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
 						
-			String queryString = "select model from OfficeLocation model where model."
+			String queryString = "select model from Dependent model where model."
 					+ propertyName + "= " + value;
 			if(value.getClass().getName().equals("java.lang.String"))
-				queryString = "select model from OfficeLocation model where model."
+				queryString = "select model from Dependent model where model."
 						+ propertyName + "= '" + value+"'";
 			Query query = entityManager
-					.createQuery(queryString, OfficeLocation.class);
+					.createQuery(queryString, Dependent.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {
@@ -108,12 +108,12 @@ public class OfficeLocationRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<OfficeLocation> findAll(final int... rowStartIdxAndCount) {
-		logger.info("finding all OfficeLocation instances");
+	public List<Dependent> findAll(final int... rowStartIdxAndCount) {
+		logger.info("finding all Dependent instances");
 		try {
-			final String queryString = "select model from OfficeLocation model";
+			final String queryString = "select model from Dependent model";
 			Query query = entityManager
-					.createQuery(queryString, OfficeLocation.class);
+					.createQuery(queryString, Dependent.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {

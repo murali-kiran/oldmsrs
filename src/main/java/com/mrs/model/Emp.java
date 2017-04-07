@@ -1,7 +1,6 @@
 package com.mrs.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -9,13 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 
 /**
@@ -24,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Entity
 @Table(name="emp")
+@NamedQuery(name="Emp.findAll", query="SELECT e FROM Emp e")
 public class Emp implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -31,28 +29,13 @@ public class Emp implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int empid;
 
-	private BigInteger aatharnumber;
-
-	private String adress1;
-
-	private String adress2;
+	private String adress;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdtime;
 
-	private String district;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date dob;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
-	private Date doj;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
-	private Date dor;
 
 	private String email;
 
@@ -62,25 +45,26 @@ public class Emp implements Serializable {
 
 	private String lastname;
 
+	private String middlename;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modifiedtime;
 
-	private String pancard;
-
 	private String phone;
 
-	private String pincode;
+	private String title;
 
-	private String state;
+	//bi-directional many-to-one association to Appointment
+	@OneToMany(mappedBy="emp")
+	private List<Appointment> appointments;
 
-	//bi-directional many-to-one association to Nominee
-	@OneToMany
-	@JoinColumn(name="empid",insertable=false,updatable=false)
-	private List<Nominee> nominees;
-	
-	@OneToMany
-	@JoinColumn(name="empid",insertable=false,updatable=false)
-	private List<Incident> incidents;
+	//bi-directional many-to-one association to Claim
+	@OneToMany(mappedBy="emp")
+	private List<Claim> claims;
+
+	//bi-directional many-to-one association to Dependent
+	@OneToMany(mappedBy="emp")
+	private List<Dependent> dependents;
 
 	public Emp() {
 	}
@@ -93,28 +77,12 @@ public class Emp implements Serializable {
 		this.empid = empid;
 	}
 
-	public BigInteger getAatharnumber() {
-		return this.aatharnumber;
+	public String getAdress() {
+		return this.adress;
 	}
 
-	public void setAatharnumber(BigInteger aatharnumber) {
-		this.aatharnumber = aatharnumber;
-	}
-
-	public String getAdress1() {
-		return this.adress1;
-	}
-
-	public void setAdress1(String adress1) {
-		this.adress1 = adress1;
-	}
-
-	public String getAdress2() {
-		return this.adress2;
-	}
-
-	public void setAdress2(String adress2) {
-		this.adress2 = adress2;
+	public void setAdress(String adress) {
+		this.adress = adress;
 	}
 
 	public Date getCreatedtime() {
@@ -125,36 +93,12 @@ public class Emp implements Serializable {
 		this.createdtime = createdtime;
 	}
 
-	public String getDistrict() {
-		return this.district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
 	public Date getDob() {
 		return this.dob;
 	}
 
 	public void setDob(Date dob) {
 		this.dob = dob;
-	}
-
-	public Date getDoj() {
-		return this.doj;
-	}
-
-	public void setDoj(Date doj) {
-		this.doj = doj;
-	}
-
-	public Date getDor() {
-		return this.dor;
-	}
-
-	public void setDor(Date dor) {
-		this.dor = dor;
 	}
 
 	public String getEmail() {
@@ -189,20 +133,20 @@ public class Emp implements Serializable {
 		this.lastname = lastname;
 	}
 
+	public String getMiddlename() {
+		return this.middlename;
+	}
+
+	public void setMiddlename(String middlename) {
+		this.middlename = middlename;
+	}
+
 	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
 	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
-	}
-
-	public String getPancard() {
-		return this.pancard;
-	}
-
-	public void setPancard(String pancard) {
-		this.pancard = pancard;
 	}
 
 	public String getPhone() {
@@ -213,53 +157,78 @@ public class Emp implements Serializable {
 		this.phone = phone;
 	}
 
-	public String getPincode() {
-		return this.pincode;
+	public String getTitle() {
+		return this.title;
 	}
 
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getState() {
-		return this.state;
+	public List<Appointment> getAppointments() {
+		return this.appointments;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
-	public List<Nominee> getNominees() {
-		return this.nominees;
+	public Appointment addAppointment(Appointment appointment) {
+		getAppointments().add(appointment);
+		appointment.setEmp(this);
+
+		return appointment;
 	}
 
-	public void setNominees(List<Nominee> nominees) {
-		this.nominees = nominees;
+	public Appointment removeAppointment(Appointment appointment) {
+		getAppointments().remove(appointment);
+		appointment.setEmp(null);
+
+		return appointment;
 	}
 
-	public List<Incident> getIncidents() {
-		return incidents;
+	public List<Claim> getClaims() {
+		return this.claims;
 	}
 
-	public void setIncidents(List<Incident> incidents) {
-		this.incidents = incidents;
+	public void setClaims(List<Claim> claims) {
+		this.claims = claims;
 	}
 
-	@Override
-	public String toString() {
-		return "Emp [empid=" + empid + ", " + (aatharnumber != null ? "aatharnumber=" + aatharnumber + ", " : "")
-				+ (adress1 != null ? "adress1=" + adress1 + ", " : "")
-				+ (adress2 != null ? "adress2=" + adress2 + ", " : "")
-				+ (createdtime != null ? "createdtime=" + createdtime + ", " : "")
-				+ (district != null ? "district=" + district + ", " : "") + (dob != null ? "dob=" + dob + ", " : "")
-				+ (doj != null ? "doj=" + doj + ", " : "") + (dor != null ? "dor=" + dor + ", " : "")
-				+ (email != null ? "email=" + email + ", " : "")
-				+ (firstname != null ? "firstname=" + firstname + ", " : "") + "gender=" + gender + ", "
-				+ (lastname != null ? "lastname=" + lastname + ", " : "")
-				+ (modifiedtime != null ? "modifiedtime=" + modifiedtime + ", " : "")
-				+ (pancard != null ? "pancard=" + pancard + ", " : "") + (phone != null ? "phone=" + phone + ", " : "")
-				+ (pincode != null ? "pincode=" + pincode + ", " : "") + (state != null ? "state=" + state + ", " : "")
-				+ (nominees != null ? "nominees=" + nominees + ", " : "")
-				+ (incidents != null ? "incidents=" + incidents : "") + "]";
+	public Claim addClaim(Claim claim) {
+		getClaims().add(claim);
+		claim.setEmp(this);
+
+		return claim;
 	}
+
+	public Claim removeClaim(Claim claim) {
+		getClaims().remove(claim);
+		claim.setEmp(null);
+
+		return claim;
+	}
+
+	public List<Dependent> getDependents() {
+		return this.dependents;
+	}
+
+	public void setDependents(List<Dependent> dependents) {
+		this.dependents = dependents;
+	}
+
+	public Dependent addDependent(Dependent dependent) {
+		getDependents().add(dependent);
+		dependent.setEmp(this);
+
+		return dependent;
+	}
+
+	public Dependent removeDependent(Dependent dependent) {
+		getDependents().remove(dependent);
+		dependent.setEmp(null);
+
+		return dependent;
+	}
+
 }

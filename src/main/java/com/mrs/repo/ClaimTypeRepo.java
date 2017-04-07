@@ -13,19 +13,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mrs.model.BenefitType;
+import com.mrs.model.ClaimType;
 
 @Repository
-public class BenefitTypeRepo {
+public class ClaimTypeRepo {
 
-	private static final Logger logger = Logger.getLogger(BenefitTypeRepo.class);
+	private static final Logger logger = Logger.getLogger(ClaimTypeRepo.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void save(BenefitType entity) {
-		logger.info("saving BenefitType instance");
+	public void save(ClaimType entity) {
+		logger.info("saving ClaimType instance");
 		try {
 			entityManager.persist(entity);
 			logger.info("save successful");
@@ -36,11 +36,11 @@ public class BenefitTypeRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void delete(BenefitType entity) {
-		logger.info("deleting BenefitType instance");
+	public void delete(ClaimType entity) {
+		logger.info("deleting ClaimType instance");
 		try {
-			entity = entityManager.getReference(BenefitType.class,
-					entity.getBenefittypeid());
+			entity = entityManager.getReference(ClaimType.class,
+					entity.getClaimtypeid());
 			entityManager.remove(entity);
 			logger.info("delete successful");
 		} catch (RuntimeException re) {
@@ -50,10 +50,10 @@ public class BenefitTypeRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public BenefitType update(BenefitType entity) {
-		logger.info("updating BenefitType instance");
+	public ClaimType update(ClaimType entity) {
+		logger.info("updating ClaimType instance");
 		try {
-			BenefitType result = entityManager.merge(entity);
+			ClaimType result = entityManager.merge(entity);
 			logger.info("update successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -62,10 +62,10 @@ public class BenefitTypeRepo {
 		}
 	}
 
-	public BenefitType findById(Integer id) {
-		logger.info("finding BenefitType instance with id: " + id);
+	public ClaimType findById(Integer id) {
+		logger.info("finding ClaimType instance with id: " + id);
 		try {
-			BenefitType instance = entityManager.find(BenefitType.class, id);
+			ClaimType instance = entityManager.find(ClaimType.class, id);
 			return instance;
 		} catch (RuntimeException re) {
 			logger.error("find failed", re);
@@ -74,19 +74,19 @@ public class BenefitTypeRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<BenefitType> findByProperty(String propertyName,
+	public List<ClaimType> findByProperty(String propertyName,
 			final Object value, final int... rowStartIdxAndCount) {
-		logger.info("finding BenefitType instance with property: " + propertyName
+		logger.info("finding ClaimType instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
 						
-			String queryString = "select model from BenefitType model where model."
+			String queryString = "select model from ClaimType model where model."
 					+ propertyName + "= " + value;
 			if(value.getClass().getName().equals("java.lang.String"))
-				queryString = "select model from BenefitType model where model."
+				queryString = "select model from ClaimType model where model."
 						+ propertyName + "= '" + value+"'";
 			Query query = entityManager
-					.createQuery(queryString, BenefitType.class);
+					.createQuery(queryString, ClaimType.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {
@@ -108,12 +108,12 @@ public class BenefitTypeRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<BenefitType> findAll(final int... rowStartIdxAndCount) {
-		logger.info("finding all BenefitType instances");
+	public List<ClaimType> findAll(final int... rowStartIdxAndCount) {
+		logger.info("finding all ClaimType instances");
 		try {
-			final String queryString = "select model from BenefitType model";
+			final String queryString = "select model from ClaimType model";
 			Query query = entityManager
-					.createQuery(queryString, BenefitType.class);
+					.createQuery(queryString, ClaimType.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {

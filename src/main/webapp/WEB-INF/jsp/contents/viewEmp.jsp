@@ -16,21 +16,16 @@
   <div class="ymc-container" id="services" style="margin-top:5px">
     <h1 class="ymc-xxxlarge ymc-text-red"><b>View Client</b></h1>
 <table>
-	<tr><td>EmpID : </td><td><c:out value="${ emp.empid}"/></td></tr>
+	<tr><td>ID : </td><td><c:out value="${ emp.empid}"/></td></tr>
 	<tr><td>First Name : </td><td><c:out value="${ emp.firstname}"/></td></tr>
+	<tr><td>Middle Name : </td><td><c:out value="${ emp.middlename}"/></td></tr>
 	<tr><td>Last Name : </td><td><c:out value="${ emp.lastname}"/></td></tr>
-	<tr><td>DOB : </td><td><c:out value="${ emp.dob}"/></td></tr>
-	<tr><td>DOJ : </td><td><c:out value="${ emp.doj}"/></td></tr>
-	<tr><td>DOR : </td><td><c:out value="${ emp.dor}"/></td></tr>
-	<tr><td>PHONE: </td><td><c:out value="${ emp.phone}"/></td></tr>
+	<tr><td>Gender : </td><td><c:out value="${ emp.gender}"/></td></tr>
+	<tr><td>Date Of Birthday : </td><td><c:out value="${ emp.dob}"/></td></tr>
+	<tr><td>Phone: </td><td><c:out value="${ emp.phone}"/></td></tr>
+	<tr><td>Email: </td><td><c:out value="${ emp.email}"/></td></tr>
+	<tr><td>Address: </td><td><c:out value="${ emp.address}"/></td></tr>
 </table>
-
-<h1>Appointment Details</h1>
-<table>
-	<tr><td><c:out value="${ emp.firstname}"/></td> <td><c:out value="${ emp.phone}"/></td></tr>
-</table>	
-</div>
-
 
 	<h1 class="ymc-xxxlarge ymc-text-red"><b>Claim List</b></h1>
 		<table style="border: 1px solid;"

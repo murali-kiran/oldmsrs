@@ -13,19 +13,19 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mrs.model.Nominee;
+import com.mrs.model.HospitalType;
 
 @Repository
-public class NomineeRepo {
+public class HospitalTypeRepo {
 
-	private static final Logger logger = Logger.getLogger(NomineeRepo.class);
+	private static final Logger logger = Logger.getLogger(HospitalTypeRepo.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void save(Nominee entity) {
-		logger.info("saving Nominee instance");
+	public void save(HospitalType entity) {
+		logger.info("saving HospitalType instance");
 		try {
 			entityManager.persist(entity);
 			logger.info("save successful");
@@ -36,11 +36,11 @@ public class NomineeRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public void delete(Nominee entity) {
-		logger.info("deleting Nominee instance");
+	public void delete(HospitalType entity) {
+		logger.info("deleting HospitalType instance");
 		try {
-			entity = entityManager.getReference(Nominee.class,
-					entity.getNomineeid());
+			entity = entityManager.getReference(HospitalType.class,
+					entity.getHospitaltypeid());
 			entityManager.remove(entity);
 			logger.info("delete successful");
 		} catch (RuntimeException re) {
@@ -50,10 +50,10 @@ public class NomineeRepo {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
-	public Nominee update(Nominee entity) {
-		logger.info("updating Nominee instance");
+	public HospitalType update(HospitalType entity) {
+		logger.info("updating HospitalType instance");
 		try {
-			Nominee result = entityManager.merge(entity);
+			HospitalType result = entityManager.merge(entity);
 			logger.info("update successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -62,10 +62,10 @@ public class NomineeRepo {
 		}
 	}
 
-	public Nominee findById(Integer id) {
-		logger.info("finding Nominee instance with id: " + id);
+	public HospitalType findById(Integer id) {
+		logger.info("finding HospitalType instance with id: " + id);
 		try {
-			Nominee instance = entityManager.find(Nominee.class, id);
+			HospitalType instance = entityManager.find(HospitalType.class, id);
 			return instance;
 		} catch (RuntimeException re) {
 			logger.error("find failed", re);
@@ -74,19 +74,19 @@ public class NomineeRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Nominee> findByProperty(String propertyName,
+	public List<HospitalType> findByProperty(String propertyName,
 			final Object value, final int... rowStartIdxAndCount) {
-		logger.info("finding Nominee instance with property: " + propertyName
+		logger.info("finding HospitalType instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
 						
-			String queryString = "select model from Nominee model where model."
+			String queryString = "select model from HospitalType model where model."
 					+ propertyName + "= " + value;
 			if(value.getClass().getName().equals("java.lang.String"))
-				queryString = "select model from Nominee model where model."
+				queryString = "select model from HospitalType model where model."
 						+ propertyName + "= '" + value+"'";
 			Query query = entityManager
-					.createQuery(queryString, Nominee.class);
+					.createQuery(queryString, HospitalType.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {
@@ -108,12 +108,12 @@ public class NomineeRepo {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Nominee> findAll(final int... rowStartIdxAndCount) {
-		logger.info("finding all Nominee instances");
+	public List<HospitalType> findAll(final int... rowStartIdxAndCount) {
+		logger.info("finding all HospitalType instances");
 		try {
-			final String queryString = "select model from Nominee model";
+			final String queryString = "select model from HospitalType model";
 			Query query = entityManager
-					.createQuery(queryString, Nominee.class);
+					.createQuery(queryString, HospitalType.class);
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {
