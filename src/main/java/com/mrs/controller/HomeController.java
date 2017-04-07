@@ -44,10 +44,6 @@ public class HomeController {
 	@RequestMapping(value="/viewEmp",method = RequestMethod.GET)
     public String getEmp(@RequestParam(value="empid",required=true) Integer empid, Model model) {
 		model.addAttribute("emp", homeService.getEmpById(empid));
-	//	model.addAttribute("claims", homeService.getAllClaimsByEmp(empid));
-		//model.addAttribute("dependents", homeService.getAllDependentsByEmp(empid));
-		//model.addAttribute("incident", new Incident());
-		//model.addAttribute("dependent", new Nominee());
 		return "viewEmp";
     }
 	@RequestMapping(method = RequestMethod.GET, value = "/empList")
