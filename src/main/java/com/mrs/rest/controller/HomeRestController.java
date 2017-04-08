@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
 import com.mrs.service.HomeService;
 
@@ -53,9 +55,9 @@ public class HomeRestController {
 	@RequestMapping(value="/createIncident",method = RequestMethod.POST, produces="application/json", consumes="application/json")
     public @ResponseBody Incident createIncident(@RequestBody Incident incident) {
         return homeService.createIncident(incident);
-    }
-    @RequestMapping(value="/createDependent",method = RequestMethod.POST, produces="application/json", consumes="application/json")
-    public @ResponseBody Nominee createNominee(@RequestBody Nominee nominee) {
-        return homeService.createNominee(nominee);
     }*/
+    @RequestMapping(value="/createDependent",method = RequestMethod.POST, produces="application/json", consumes="application/json")
+    public @ResponseBody Dependent createDependent(@RequestBody Dependent dependent) {
+        return homeService.createDependent(dependent);
+    }
 }

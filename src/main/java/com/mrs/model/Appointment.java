@@ -39,22 +39,21 @@ public class Appointment implements Serializable {
 	private String hospitalname;
 
 	private int hospitaltype;
-
-	private Timestamp modifiedtime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	private byte nature;
 
 	private String phone;
 
 	//bi-directional many-to-one association to Emp
-	@ManyToOne
-	@JoinColumn(name="beneficiary")
-	private Emp emp;
+
+	@Column(name="beneficiary")
+	private int empid;
 
 	//bi-directional many-to-one association to AppointmentType
-	@ManyToOne
-	@JoinColumn(name="appointmenttypeid")
-	private AppointmentType appointmentType;
+
+	private int appointmenttypeid;
 
 	public Appointment() {
 	}
@@ -139,11 +138,11 @@ public class Appointment implements Serializable {
 		this.hospitaltype = hospitaltype;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
 
@@ -163,20 +162,20 @@ public class Appointment implements Serializable {
 		this.phone = phone;
 	}
 
-	public Emp getEmp() {
-		return this.emp;
+	public int getEmpid() {
+		return this.empid;
 	}
 
-	public void setEmp(Emp emp) {
-		this.emp = emp;
+	public void setEmpid(int empid) {
+		this.empid = empid;
 	}
 
-	public AppointmentType getAppointmentType() {
-		return this.appointmentType;
+	public int getAppointmenttypeid() {
+		return this.appointmenttypeid;
 	}
 
-	public void setAppointmentType(AppointmentType appointmentType) {
-		this.appointmentType = appointmentType;
+	public void setAppointmenttypeid(int appointmenttypeid) {
+		this.appointmenttypeid = appointmenttypeid;
 	}
 
 }

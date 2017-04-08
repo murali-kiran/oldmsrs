@@ -40,4 +40,8 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/contents/viewEmp.jsp" />
 	</definition>
 	
+	<definition name="viewClaim" extends="base.definition">
+		<put-attribute name="title" value="View Claim" />
+		<put-attribute name="body" value="/WEB-INF/jsp/contents/viewClaim.jsp" />
+	</definition>
 </tiles-definitions>
