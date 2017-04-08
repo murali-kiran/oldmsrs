@@ -29,7 +29,8 @@ public class ClaimType implements Serializable {
 	private Date modifiedtime;
 
 	//bi-directional many-to-one association to Claim
-	@OneToMany(mappedBy="claimType")
+	@OneToMany
+	@JoinColumn(name="claimtypeid",insertable=false,updatable=false)
 	private List<Claim> claims;
 
 	public ClaimType() {
@@ -73,20 +74,6 @@ public class ClaimType implements Serializable {
 
 	public void setClaims(List<Claim> claims) {
 		this.claims = claims;
-	}
-
-	public Claim addClaim(Claim claim) {
-		getClaims().add(claim);
-		claim.setClaimType(this);
-
-		return claim;
-	}
-
-	public Claim removeClaim(Claim claim) {
-		getClaims().remove(claim);
-		claim.setClaimType(null);
-
-		return claim;
 	}
 
 }
