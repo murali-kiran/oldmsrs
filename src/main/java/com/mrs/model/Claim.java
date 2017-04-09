@@ -1,9 +1,17 @@
 package com.mrs.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -44,14 +52,11 @@ public class Claim implements Serializable {
 	private String status;
 
 	//bi-directional many-to-one association to ClaimType
-	@ManyToOne
-	@JoinColumn(name="claimtypeid")
-	private ClaimType claimType;
+	private int claimtypeid;
 
 	//bi-directional many-to-one association to Emp
-	@ManyToOne
-	@JoinColumn(name="beneficiary")
-	private Emp emp;
+	@Column(name="beneficiary")
+	private int empid;
 
 	public Claim() {
 	}
@@ -144,20 +149,20 @@ public class Claim implements Serializable {
 		this.status = status;
 	}
 
-	public ClaimType getClaimType() {
-		return this.claimType;
+	public int getClaimtypeid() {
+		return this.claimtypeid;
 	}
 
-	public void setClaimType(ClaimType claimType) {
-		this.claimType = claimType;
+	public void setClaimtypeid(int claimtypeid) {
+		this.claimtypeid = claimtypeid;
 	}
 
-	public Emp getEmp() {
-		return this.emp;
+	public int getEmpid() {
+		return this.empid;
 	}
 
-	public void setEmp(Emp emp) {
-		this.emp = emp;
+	public void setEmpid(int empid) {
+		this.empid = empid;
 	}
 
 }

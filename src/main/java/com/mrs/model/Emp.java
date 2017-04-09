@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -55,15 +56,18 @@ public class Emp implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to Appointment
-	@OneToMany(mappedBy="emp")
+	@OneToMany
+	@JoinColumn(name="empid",insertable=false,updatable=false)
 	private List<Appointment> appointments;
 
 	//bi-directional many-to-one association to Claim
-	@OneToMany(mappedBy="emp")
+	@OneToMany
+	@JoinColumn(name="empid",insertable=false,updatable=false)
 	private List<Claim> claims;
 
 	//bi-directional many-to-one association to Dependent
-	@OneToMany(mappedBy="emp")
+	@OneToMany
+	@JoinColumn(name="empid",insertable=false,updatable=false)
 	private List<Dependent> dependents;
 
 	public Emp() {
@@ -173,40 +177,12 @@ public class Emp implements Serializable {
 		this.appointments = appointments;
 	}
 
-	public Appointment addAppointment(Appointment appointment) {
-		getAppointments().add(appointment);
-		appointment.setEmp(this);
-
-		return appointment;
-	}
-
-	public Appointment removeAppointment(Appointment appointment) {
-		getAppointments().remove(appointment);
-		appointment.setEmp(null);
-
-		return appointment;
-	}
-
 	public List<Claim> getClaims() {
 		return this.claims;
 	}
 
 	public void setClaims(List<Claim> claims) {
 		this.claims = claims;
-	}
-
-	public Claim addClaim(Claim claim) {
-		getClaims().add(claim);
-		claim.setEmp(this);
-
-		return claim;
-	}
-
-	public Claim removeClaim(Claim claim) {
-		getClaims().remove(claim);
-		claim.setEmp(null);
-
-		return claim;
 	}
 
 	public List<Dependent> getDependents() {
@@ -216,19 +192,4 @@ public class Emp implements Serializable {
 	public void setDependents(List<Dependent> dependents) {
 		this.dependents = dependents;
 	}
-
-	public Dependent addDependent(Dependent dependent) {
-		getDependents().add(dependent);
-		dependent.setEmp(this);
-
-		return dependent;
-	}
-
-	public Dependent removeDependent(Dependent dependent) {
-		getDependents().remove(dependent);
-		dependent.setEmp(null);
-
-		return dependent;
-	}
-
 }

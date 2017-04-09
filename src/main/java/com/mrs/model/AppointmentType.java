@@ -25,11 +25,12 @@ public class AppointmentType implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdtime;
-
-	private Timestamp modifiedtime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	//bi-directional many-to-one association to Appointment
-	@OneToMany(mappedBy="appointmentType")
+	@OneToMany
+	@JoinColumn(name="appointmenttypeid",insertable=false,updatable=false)
 	private List<Appointment> appointments;
 
 	public AppointmentType() {
@@ -59,11 +60,11 @@ public class AppointmentType implements Serializable {
 		this.createdtime = createdtime;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
 
@@ -75,18 +76,5 @@ public class AppointmentType implements Serializable {
 		this.appointments = appointments;
 	}
 
-	public Appointment addAppointment(Appointment appointment) {
-		getAppointments().add(appointment);
-		appointment.setAppointmentType(this);
-
-		return appointment;
-	}
-
-	public Appointment removeAppointment(Appointment appointment) {
-		getAppointments().remove(appointment);
-		appointment.setAppointmentType(null);
-
-		return appointment;
-	}
 
 }

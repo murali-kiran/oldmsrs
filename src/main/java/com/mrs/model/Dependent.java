@@ -31,7 +31,8 @@ public class Dependent implements Serializable {
 
 	private String lastname;
 
-	private Timestamp modifiedtime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	private BigInteger phone;
 
@@ -40,9 +41,7 @@ public class Dependent implements Serializable {
 	private String title;
 
 	//bi-directional many-to-one association to Emp
-	@ManyToOne
-	@JoinColumn(name="empid")
-	private Emp emp;
+	private int empid;
 
 	public Dependent() {
 	}
@@ -87,11 +86,11 @@ public class Dependent implements Serializable {
 		this.lastname = lastname;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
 
@@ -119,12 +118,12 @@ public class Dependent implements Serializable {
 		this.title = title;
 	}
 
-	public Emp getEmp() {
-		return this.emp;
+	public int getEmpid() {
+		return this.empid;
 	}
 
-	public void setEmp(Emp emp) {
-		this.emp = emp;
+	public void setEmp(int empid) {
+		this.empid = empid;
 	}
 
 }

@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mrs.model.Appointment;
+import com.mrs.model.Claim;
+import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
 import com.mrs.model.Hospital;
 import com.mrs.service.HomeService;
@@ -45,6 +48,13 @@ public class HomeController {
 	@RequestMapping(value="/viewEmp",method = RequestMethod.GET)
     public String getEmp(@RequestParam(value="empid",required=true) Integer empid, Model model) {
 		model.addAttribute("emp", homeService.getEmpById(empid));
+		model.addAttribute("benifitTypes", homeService.getAllClaimType());
+	//	model.addAttribute("claims", homeService.getAllClaimsByEmp(empid));
+	//	model.addAttribute("dependents", homeService.getAllDependentsByEmp(empid));
+		model.addAttribute("claims", homeService.getAllClaims());
+		model.addAttribute("dependents", homeService.getAllDependents());
+		model.addAttribute("incident", new Claim());
+		model.addAttribute("dependent", new Dependent());
 		return "viewEmp";
     }
 	@RequestMapping(method = RequestMethod.GET, value = "/empList")
@@ -82,6 +92,23 @@ public class HomeController {
 		return "redirect:/home/searchHospital";
     }
 	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/viewClaim")
+    String viewClaim(@RequestParam(value = "claimid", required = false) Integer claimid, Model model) {
+		Claim claim = null;
+		if(claimid!=null)
+			claim=homeService.getClaimById(claimid);
+        model.addAttribute("claim",  claim == null ? new Claim() : claim);
+        model.addAttribute("claimTypes", homeService.getAllClaimType());
+        model.addAttribute("appointment", new Appointment());
+        model.addAttribute("appointments", null);
+        return "viewClaim";
+    }
+	@RequestMapping(method = RequestMethod.POST, value = "/createClaim")
+    String createCreateSubmit(@ModelAttribute Claim claim,BindingResult bindingResult) {
+		homeService.createClaim(claim);
+		return "redirect:/home/viewClaim?claimid="+claim.getClaimid();
+    }
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 	    CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true);
