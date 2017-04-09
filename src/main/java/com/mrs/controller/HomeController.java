@@ -77,20 +77,29 @@ public class HomeController {
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/viewClaim")
-    String viewClaim(@RequestParam(value = "claimid", required = false) Integer claimid, Model model) {
+    String viewClaim(@RequestParam(value = "claimid", required = false) Integer claimid,Integer empid, Model model) {
 		Claim claim = null;
 		if(claimid!=null)
 			claim=homeService.getClaimById(claimid);
         model.addAttribute("claim",  claim == null ? new Claim() : claim);
         model.addAttribute("claimTypes", homeService.getAllClaimType());
         model.addAttribute("appointment", new Appointment());
-        model.addAttribute("appointments", null);
+        model.addAttribute("empid", empid);
+        if(claimid!= null && claimid != 0){
+        	model.addAttribute("appointments", homeService.getAllAppointmentsByClaim(claimid));
+        	model.addAttribute("claimid", claimid);
+        }
         return "viewClaim";
     }
 	@RequestMapping(method = RequestMethod.POST, value = "/createClaim")
-    String createCreateSubmit(@ModelAttribute Claim claim,BindingResult bindingResult) {
+    String createClaimSubmit(@ModelAttribute Claim claim,BindingResult bindingResult) {
 		homeService.createClaim(claim);
 		return "redirect:/home/viewClaim?claimid="+claim.getClaimid();
+    }
+	@RequestMapping(method = RequestMethod.POST, value = "/createApp")
+    String createAppSubmit(@ModelAttribute Appointment app,BindingResult bindingResult) {
+		homeService.createAppointment(app);
+		return "redirect:/home/viewClaim?claimid="+app.getClaimid()+"&empid="+app.getEmpid();
     }
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {

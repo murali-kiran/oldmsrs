@@ -3,7 +3,6 @@ package com.mrs.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
 
 
 /**
@@ -45,8 +44,16 @@ public class Appointment implements Serializable {
 	private byte nature;
 
 	private String phone;
-
+	private int claimid;
 	//bi-directional many-to-one association to Emp
+
+	public int getClaimid() {
+		return claimid;
+	}
+
+	public void setClaimid(int claimid) {
+		this.claimid = claimid;
+	}
 
 	@Column(name="beneficiary")
 	private int empid;

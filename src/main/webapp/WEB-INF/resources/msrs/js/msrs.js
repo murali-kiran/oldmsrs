@@ -77,7 +77,7 @@ function callAjaxGet(data, url) {
 	});
 }
 var showCreateClaim = true;
-function showCreateClaim() {alert("hi");
+function showCreateClaim() {
 	if(showCreateClaim){
 		$('#incidentdiv').show();
 		showCreateClaim = false;
@@ -89,7 +89,7 @@ function showCreateClaim() {alert("hi");
 }
 var showCreateDep = true;
 function showCreateDependent(size) {
-	if(size < 10){
+	if(size < 4){
 		if(showCreateDep){
 			$('#dependentdiv').show();
 			showCreateDep = false;
@@ -100,6 +100,17 @@ function showCreateDependent(size) {
 	}else{
 		alert("Could not add more dependents !");
 	}
+}
+var showAppointment1 = true;
+function showAppointment() {
+	if(showAppointment1){
+		$('#appdiv').show();
+		showAppointment1 = false;
+	}else{
+		$('#appdiv').hide();
+		showAppointment1 = true;
+	}
+	
 }
 $(function() {
 	$( ".date-picker" ).datepicker({ dateFormat: 'yy-mm-dd' });

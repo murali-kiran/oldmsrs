@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.27, for Win32 (x86)
 --
 -- Host: localhost    Database: oldmsrs
 -- ------------------------------------------------------
--- Server version	5.7.17
+-- Server version	5.5.27
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -13,12 +13,13 @@
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */; 
 
 --
 -- Table structure for table `appointment`
 --
-
+create database if not exists oldmsrs;
+use oldmsrs;
 DROP TABLE IF EXISTS `appointment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -37,13 +38,14 @@ CREATE TABLE `appointment` (
   `department` varchar(45) DEFAULT NULL,
   `emailid` varchar(500) DEFAULT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `claimid` int(11) DEFAULT NULL,
   PRIMARY KEY (`appointmentid`),
   KEY `fk_appointment_1_idx` (`beneficiary`),
   KEY `fk_appointment_2_idx` (`appointmenttypeid`),
   CONSTRAINT `fk_appointment_1` FOREIGN KEY (`beneficiary`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_appointment_2` FOREIGN KEY (`appointmenttypeid`) REFERENCES `appointment_type` (`appointmenttypeid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,6 +54,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
+INSERT INTO `appointment` VALUES (1,1,1,1,'details wewew test','2017-04-09 00:00:00',1,1,'hospital','Dr1','3232323','dep',NULL,'2017-04-09 00:00:00','2017-04-09 14:02:10',1),(5,1,0,1,'sdasds dfdfdfdfd','2017-04-09 00:00:00',1,1,'sadas','sadasd','','1',NULL,'2017-04-09 00:00:00','2017-04-09 13:55:24',1),(6,1,0,1,'deeeeeeeeeeeee','2017-04-09 00:00:00',0,0,'sssssssss','dddddddddd',NULL,'dededed',NULL,'2017-04-09 18:39:09','2017-04-09 13:09:09',0),(7,1,0,1,'test','2017-04-09 00:00:00',1,1,'test','test','3445','1',NULL,'2017-04-09 19:30:31','2017-04-09 14:00:31',1);
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,9 +69,9 @@ CREATE TABLE `appointment_type` (
   `appointmenttypeid` int(11) NOT NULL AUTO_INCREMENT,
   `appointmenttype` varchar(45) NOT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`appointmenttypeid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,6 +80,7 @@ CREATE TABLE `appointment_type` (
 
 LOCK TABLES `appointment_type` WRITE;
 /*!40000 ALTER TABLE `appointment_type` DISABLE KEYS */;
+INSERT INTO `appointment_type` VALUES (1,'appointmenttype1','2017-04-09 00:00:00','2017-04-08 18:30:00'),(2,'appointmenttype2','2017-04-09 00:00:00','2017-04-08 18:30:00');
 /*!40000 ALTER TABLE `appointment_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +127,7 @@ CREATE TABLE `claim` (
   `auditby` varchar(1000) DEFAULT NULL,
   `status` varchar(100) NOT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `auditcomments` varchar(1000) DEFAULT NULL,
   `activeappointment` tinyint(1) NOT NULL,
   `prognosis` varchar(1000) DEFAULT NULL,
@@ -132,7 +136,7 @@ CREATE TABLE `claim` (
   KEY `fk_claim_2_idx` (`beneficiary`),
   CONSTRAINT `fk_claim_1` FOREIGN KEY (`claimtypeid`) REFERENCES `claim_type` (`claimtypeid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_claim_2` FOREIGN KEY (`beneficiary`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,6 +145,7 @@ CREATE TABLE `claim` (
 
 LOCK TABLES `claim` WRITE;
 /*!40000 ALTER TABLE `claim` DISABLE KEYS */;
+INSERT INTO `claim` VALUES (1,1,'Description',1,'2017-04-08','Doc 12333','1','1','2017-04-08 00:00:00','2017-04-07 18:30:00','comm',1,'prog'),(3,1,'desc',1,'2017-04-09','docu','Ramesh','wewewe','2017-04-09 18:11:49','2017-04-09 12:41:49','comm',0,'wewwe');
 /*!40000 ALTER TABLE `claim` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,11 +192,11 @@ CREATE TABLE `dependent` (
   `dob` date NOT NULL,
   `phone` bigint(20) DEFAULT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`dependentid`),
   KEY `fk_nominee_emp_idx` (`empid`),
   CONSTRAINT `fk_nominee_emp` FOREIGN KEY (`empid`) REFERENCES `emp` (`empid`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,7 +205,7 @@ CREATE TABLE `dependent` (
 
 LOCK TABLES `dependent` WRITE;
 /*!40000 ALTER TABLE `dependent` DISABLE KEYS */;
-INSERT INTO `dependent` VALUES (1,1,'sanju','','','0','0000-00-00',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,2,'Mur','','','Friend','0000-00-00',NULL,'0000-00-00 00:00:00','0000-00-00 00:00:00');
+INSERT INTO `dependent` VALUES (1,1,'sanju','','','0','2017-04-08',2121212121,'2017-04-08 00:00:00','2017-04-07 18:30:00'),(2,2,'Mur','','','Friend','2017-04-08',12121212,'2017-04-08 00:00:00','2017-04-07 18:30:00'),(4,1,'title','test1','test1','bro','2017-04-08',454465,'2017-04-08 23:18:21','2017-04-08 17:48:21');
 /*!40000 ALTER TABLE `dependent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +228,7 @@ CREATE TABLE `emp` (
   `email` varchar(500) NOT NULL,
   `adress` varchar(2000) DEFAULT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`empid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -340,7 +345,7 @@ CREATE TABLE `hospital` (
   `state` varchar(100) DEFAULT NULL,
   `country` varchar(100) DEFAULT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`hospitalid`),
   KEY `fk_hospital_1_idx` (`hospitaltypeid`),
   CONSTRAINT `fk_hospital_1` FOREIGN KEY (`hospitaltypeid`) REFERENCES `hospital_type` (`hospitaltypeid`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -371,7 +376,7 @@ CREATE TABLE `hospital_account` (
   `branch` varchar(45) NOT NULL,
   `ifsccode` varchar(45) NOT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`hospitalaccountid`),
   KEY `fk_hospital_account_1_idx` (`hospitalid`),
   CONSTRAINT `fk_hospital_account_1` FOREIGN KEY (`hospitalid`) REFERENCES `hospital` (`hospitalid`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -399,7 +404,7 @@ CREATE TABLE `hospital_department` (
   `hospitalid` int(11) NOT NULL,
   `department` varchar(500) NOT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`hospitaldepartmentid`),
   KEY `fk_hospital_department_1_idx` (`hospitalid`),
   CONSTRAINT `fk_hospital_department_1` FOREIGN KEY (`hospitalid`) REFERENCES `hospital` (`hospitalid`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -426,7 +431,7 @@ CREATE TABLE `hospital_type` (
   `hospitaltypeid` int(11) NOT NULL AUTO_INCREMENT,
   `hospitaltype` varchar(45) NOT NULL,
   `createdtime` datetime NOT NULL,
-  `modifiedtime` timestamp NOT NULL,
+  `modifiedtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`hospitaltypeid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -474,4 +479,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-07 22:26:47
+-- Dump completed on 2017-04-09 19:43:10
