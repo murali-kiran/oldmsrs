@@ -1,10 +1,16 @@
 package com.mrs.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
-import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -26,11 +32,8 @@ public class HospitalType implements Serializable {
 
 	private String hospitaltype;
 
-	private Timestamp modifiedtime;
-
-	//bi-directional many-to-one association to Hospital
-	@OneToMany(mappedBy="hospitalType")
-	private List<Hospital> hospitals;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	public HospitalType() {
 	}
@@ -59,34 +62,11 @@ public class HospitalType implements Serializable {
 		this.hospitaltype = hospitaltype;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
-
-	public List<Hospital> getHospitals() {
-		return this.hospitals;
-	}
-
-	public void setHospitals(List<Hospital> hospitals) {
-		this.hospitals = hospitals;
-	}
-
-	public Hospital addHospital(Hospital hospital) {
-		getHospitals().add(hospital);
-		hospital.setHospitalType(this);
-
-		return hospital;
-	}
-
-	public Hospital removeHospital(Hospital hospital) {
-		getHospitals().remove(hospital);
-		hospital.setHospitalType(null);
-
-		return hospital;
-	}
-
 }

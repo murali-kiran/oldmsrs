@@ -8,14 +8,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mrs.model.Claim;
 import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
+import com.mrs.model.Hospital;
+import com.mrs.model.HospitalType;
 import com.mrs.repo.AppointmentRepo;
 import com.mrs.repo.AppointmentTypeRepo;
 import com.mrs.repo.ClaimRepo;
 import com.mrs.repo.ClaimTypeRepo;
 import com.mrs.repo.EmpRepo;
+import com.mrs.repo.HospitalRepo;
+import com.mrs.repo.HospitalTypeRepo;
 import com.mrs.service.HomeService;
 
 @Service
@@ -37,6 +40,12 @@ public class HomeServiceImpl implements HomeService{
 	
 	@Autowired
 	ClaimTypeRepo officeLocationRepo;
+	
+	@Autowired
+	HospitalRepo hospitalRepo;
+	
+	@Autowired
+	HospitalTypeRepo hospitalTypeRepo;
 	
 	@Override
 	public List<Emp> getAllEmployees() {
@@ -70,5 +79,19 @@ public class HomeServiceImpl implements HomeService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	public Hospital getHospitalById(Integer hospitalid){
+		return hospitalRepo.findById(hospitalid);
+	}
+	public Hospital createHospital(Hospital hospital){
+		logger.info("Saving Hospital "+hospital);
+		if(hospital.getHospitalid()==0){
+			hospital.setCreatedtime(new Date());
+		}
+		hospital.setModifiedtime(new Date());
+		hospitalRepo.save(hospital);
+		return  hospital;
+	}
+	public List<HospitalType> getAllHospitalTypes(){
+		return hospitalTypeRepo.findAll();
+	}
 }

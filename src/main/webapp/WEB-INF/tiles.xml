@@ -40,4 +40,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/contents/viewEmp.jsp" />
 	</definition>
 	
+	<definition name="createHospital" extends="base.definition">
+		<put-attribute name="title" value="Create Hospital" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/contents/createHospital.jsp" />
+	</definition>
+	
 </tiles-definitions>

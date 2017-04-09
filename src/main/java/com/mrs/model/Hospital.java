@@ -1,10 +1,19 @@
 package com.mrs.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -38,7 +47,8 @@ public class Hospital implements Serializable {
 
 	private String faxno;
 
-	private Timestamp modifiedtime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	private String name;
 
@@ -53,18 +63,18 @@ public class Hospital implements Serializable {
 	private String workinghours;
 
 	//bi-directional many-to-one association to HospitalType
-	@ManyToOne
-	@JoinColumn(name="hospitaltypeid")
-	private HospitalType hospitalType;
+	private int hospitaltypeid;
 
 	//bi-directional many-to-one association to HospitalAccount
-	@OneToMany(mappedBy="hospital")
+	@OneToMany
+	@JoinColumn(name="hospitalid",insertable=false,updatable=false)
 	private List<HospitalAccount> hospitalAccounts;
 
 	//bi-directional many-to-one association to HospitalDepartment
-	@OneToMany(mappedBy="hospital")
+	@OneToMany
+	@JoinColumn(name="hospitalid",insertable=false,updatable=false)
 	private List<HospitalDepartment> hospitalDepartments;
-
+	
 	public Hospital() {
 	}
 
@@ -140,11 +150,11 @@ public class Hospital implements Serializable {
 		this.faxno = faxno;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
 
@@ -196,12 +206,12 @@ public class Hospital implements Serializable {
 		this.workinghours = workinghours;
 	}
 
-	public HospitalType getHospitalType() {
-		return this.hospitalType;
+	public int getHospitaltypeid() {
+		return this.hospitaltypeid;
 	}
 
-	public void setHospitalType(HospitalType hospitalType) {
-		this.hospitalType = hospitalType;
+	public void setHospitaltypeid(int hospitaltypeid) {
+		this.hospitaltypeid = hospitaltypeid;
 	}
 
 	public List<HospitalAccount> getHospitalAccounts() {
@@ -212,40 +222,12 @@ public class Hospital implements Serializable {
 		this.hospitalAccounts = hospitalAccounts;
 	}
 
-	public HospitalAccount addHospitalAccount(HospitalAccount hospitalAccount) {
-		getHospitalAccounts().add(hospitalAccount);
-		hospitalAccount.setHospital(this);
-
-		return hospitalAccount;
-	}
-
-	public HospitalAccount removeHospitalAccount(HospitalAccount hospitalAccount) {
-		getHospitalAccounts().remove(hospitalAccount);
-		hospitalAccount.setHospital(null);
-
-		return hospitalAccount;
-	}
-
 	public List<HospitalDepartment> getHospitalDepartments() {
 		return this.hospitalDepartments;
 	}
 
 	public void setHospitalDepartments(List<HospitalDepartment> hospitalDepartments) {
 		this.hospitalDepartments = hospitalDepartments;
-	}
-
-	public HospitalDepartment addHospitalDepartment(HospitalDepartment hospitalDepartment) {
-		getHospitalDepartments().add(hospitalDepartment);
-		hospitalDepartment.setHospital(this);
-
-		return hospitalDepartment;
-	}
-
-	public HospitalDepartment removeHospitalDepartment(HospitalDepartment hospitalDepartment) {
-		getHospitalDepartments().remove(hospitalDepartment);
-		hospitalDepartment.setHospital(null);
-
-		return hospitalDepartment;
 	}
 
 }

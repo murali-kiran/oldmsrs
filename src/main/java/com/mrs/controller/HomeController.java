@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mrs.model.Emp;
+import com.mrs.model.Hospital;
 import com.mrs.service.HomeService;
 
 @Controller
@@ -66,6 +67,21 @@ public class HomeController {
 		return "redirect:/home/searchEmp";
     }
 		
+	@RequestMapping(method = RequestMethod.GET, value = "/createHospital")
+    String createHospitalForm(@RequestParam(value = "hospitalid", required = false) Integer hospitalid,Model model) {
+		Hospital hospital = null;
+		if(hospitalid!=null)
+			hospital=homeService.getHospitalById(hospitalid);
+        model.addAttribute("hospital",  hospital == null ? new Hospital() : hospital);
+        model.addAttribute("hospitaltypes",  homeService.getAllHospitalTypes());
+        return "createHospital";
+    }
+	@RequestMapping(method = RequestMethod.POST, value = "/createHospital")
+    String createHospitalSubmit(@ModelAttribute Hospital hospital,BindingResult bindingResult) {
+		homeService.createHospital(hospital);
+		return "redirect:/home/searchHospital";
+    }
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 	    CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true);
