@@ -1,6 +1,5 @@
 package com.mrs.service.impl;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
 import com.mrs.model.ClaimType;
 import com.mrs.model.Dependent;
@@ -117,13 +118,13 @@ public class HomeServiceImpl implements HomeService{
 	}
 
 	@Override
-	public Object getAllClaims() {
+	public List<Claim> getAllClaims() {
 		// TODO Auto-generated method stub
 		return (List<Claim>)claimRepo.findAll();
 	}
 
 	@Override
-	public Object getAllDependents() {
+	public List<Dependent> getAllDependents() {
 		// TODO Auto-generated method stub
 		return (List<Dependent>)dependentRepo.findAll();
 	}
@@ -132,6 +133,26 @@ public class HomeServiceImpl implements HomeService{
 	public Claim getClaimById(Integer claimid) {
 		// TODO Auto-generated method stub
 		return claimRepo.findById(claimid);
+	}
+
+	@Override
+	public List<Appointment> getAllAppointmentsByClaim(Integer claimid) {
+		// TODO Auto-generated method stub
+		return appointmentRepo.findByProperty("claimid", claimid);
+	}
+
+	@Override
+	public Appointment createAppointment(Appointment app) {
+		// TODO Auto-generated method stub
+		logger.info("Saving Claim "+app);
+		if(app.getAppointmentid()==0){
+			app.setCreatedtime(new Date());
+			appointmentRepo.save(app);
+		}else {
+			app.setModifiedtime(new Date());
+			appointmentRepo.update(app);
+		}
+		return app;
 	}
 	
 }
