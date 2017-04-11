@@ -49,8 +49,6 @@ public class HomeController {
     public String getEmp(@RequestParam(value="empid",required=true) Integer empid, Model model) {
 		model.addAttribute("emp", homeService.getEmpById(empid));
 		model.addAttribute("benifitTypes", homeService.getAllClaimType());
-	//	model.addAttribute("claims", homeService.getAllClaimsByEmp(empid));
-	//	model.addAttribute("dependents", homeService.getAllDependentsByEmp(empid));
 		model.addAttribute("claims", homeService.getAllClaims());
 		model.addAttribute("dependents", homeService.getAllDependents());
 		model.addAttribute("incident", new Claim());
@@ -76,7 +74,12 @@ public class HomeController {
 		homeService.createEmp(emp);
 		return "redirect:/home/searchEmp";
     }
-		
+	@RequestMapping(method = RequestMethod.GET, value = "/searchHospital")
+    String getSearchHospital(Model model) {
+		model.addAttribute("hospitals", homeService.getAllHospitals());
+		model.addAttribute("hospitaltypes", homeService.getAllHospitalTypes());
+        return "searchHospital";
+    }
 	@RequestMapping(method = RequestMethod.GET, value = "/createHospital")
     String createHospitalForm(@RequestParam(value = "hospitalid", required = false) Integer hospitalid,Model model) {
 		Hospital hospital = null;

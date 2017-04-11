@@ -13,6 +13,8 @@ import com.mrs.model.ClaimType;
 import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
 import com.mrs.model.Hospital;
+import com.mrs.model.HospitalAccount;
+import com.mrs.model.HospitalDepartment;
 import com.mrs.model.HospitalType;
 import com.mrs.repo.AppointmentRepo;
 import com.mrs.repo.AppointmentTypeRepo;
@@ -20,6 +22,8 @@ import com.mrs.repo.ClaimRepo;
 import com.mrs.repo.ClaimTypeRepo;
 import com.mrs.repo.DependentRepo;
 import com.mrs.repo.EmpRepo;
+import com.mrs.repo.HospitalAccountRepo;
+import com.mrs.repo.HospitalDepartmentRepo;
 import com.mrs.repo.HospitalRepo;
 import com.mrs.repo.HospitalTypeRepo;
 import com.mrs.service.HomeService;
@@ -52,6 +56,12 @@ public class HomeServiceImpl implements HomeService{
 	
 	@Autowired
 	HospitalTypeRepo hospitalTypeRepo;
+	
+	@Autowired
+	HospitalAccountRepo hospitalAccountRepo;
+
+	@Autowired
+	HospitalDepartmentRepo hospitalDepartmentRepo;
 	
 	@Override
 	public List<Emp> getAllEmployees() {
@@ -100,10 +110,27 @@ public class HomeServiceImpl implements HomeService{
 		logger.info("Saving Hospital "+hospital);
 		if(hospital.getHospitalid()==0){
 			hospital.setCreatedtime(new Date());
+			hospital.setModifiedtime(new Date());
+			hospitalRepo.save(hospital);
+		}else {
+			hospital.setModifiedtime(new Date());
+			hospitalRepo.update(hospital);
 		}
-		hospital.setModifiedtime(new Date());
-		hospitalRepo.save(hospital);
 		return  hospital;
+	}
+	public List<Hospital> getAllHospitals(){
+		List<Hospital> list= hospitalRepo.findAll();
+		for(Hospital hospital:list){
+			hospital.setHospitalAccounts(getAllHospitalAccountsByHospitalid(hospital.getHospitalid()));
+			hospital.setHospitalDepartments(getAllHospitalDepartmentsByHospitalid(hospital.getHospitalid()));
+		}
+		return list;
+	}
+	public List<HospitalAccount> getAllHospitalAccountsByHospitalid(int hospitalid){
+		return hospitalAccountRepo.findByProperty("hospitalid", hospitalid);
+	}
+	public List<HospitalDepartment> getAllHospitalDepartmentsByHospitalid(int hospitalid){
+		return hospitalDepartmentRepo.findByProperty("hospitalid", hospitalid);
 	}
 	public List<HospitalType> getAllHospitalTypes(){
 		return hospitalTypeRepo.findAll();

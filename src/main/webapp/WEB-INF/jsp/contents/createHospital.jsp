@@ -24,7 +24,7 @@
 	</c:if>
 		<table>
 		<tr><td>Name</td><td><form:input  path="name"/></td></tr>
-        <tr><td>Hospital Type</td><td> <form:select path="hospitaltypeid" /></td></tr>
+        <tr><td>Hospital Type</td><td> <form:select path="hospitaltypeid" items="${hospitaltypes}" itemValue="hospitaltypeid" itemLabel="hospitaltype"/></td></tr>
         <tr><td>Contact Number 1</td><td> <form:input path="phone1" /></td></tr>
         <tr><td>Contact Number 2</td><td><form:input path="phone2" /></td></tr>
         <tr><td>Fax </td><td><form:input path="faxno"/></td></tr>

@@ -62,6 +62,7 @@
 							<td><c:out value="${emp.empid}" /></td>
 							<td><c:if test="${emp.title !=null}"><c:out value="${emp.title}" /> </c:if>
 								<c:if test="${emp.firstname !=null}"><c:out value="${emp.firstname}" /> </c:if>
+								<c:if test="${emp.middlename !=null}"><c:out value="${emp.middlename}" /> </c:if>
 								<c:if test="${emp.lastname !=null}"><c:out value="${emp.lastname}" /> </c:if>
 							</td>
 							<td><c:out value="${emp.gender}" /></td>
