@@ -40,8 +40,19 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/contents/viewEmp.jsp" />
 	</definition>
 	
+	<definition name="createHospital" extends="base.definition">
+		<put-attribute name="title" value="Create Hospital" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/contents/createHospital.jsp" />
+	</definition>
+	<definition name="searchHospital" extends="base.definition">
+		<put-attribute name="title" value="Search Hospital" />
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/contents/searchHospital.jsp" />
+	</definition>
 	<definition name="viewClaim" extends="base.definition">
 		<put-attribute name="title" value="View Claim" />
 		<put-attribute name="body" value="/WEB-INF/jsp/contents/viewClaim.jsp" />
 	</definition>
+
 </tiles-definitions>

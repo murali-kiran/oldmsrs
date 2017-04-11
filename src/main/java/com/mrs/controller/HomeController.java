@@ -20,6 +20,7 @@ import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
 import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
+import com.mrs.model.Hospital;
 import com.mrs.service.HomeService;
 
 @Controller
@@ -48,8 +49,6 @@ public class HomeController {
     public String getEmp(@RequestParam(value="empid",required=true) Integer empid, Model model) {
 		model.addAttribute("emp", homeService.getEmpById(empid));
 		model.addAttribute("benifitTypes", homeService.getAllClaimType());
-	//	model.addAttribute("claims", homeService.getAllClaimsByEmp(empid));
-	//	model.addAttribute("dependents", homeService.getAllDependentsByEmp(empid));
 		model.addAttribute("claims", homeService.getAllClaims());
 		model.addAttribute("dependents", homeService.getAllDependents());
 		model.addAttribute("incident", new Claim());
@@ -75,6 +74,27 @@ public class HomeController {
 		homeService.createEmp(emp);
 		return "redirect:/home/searchEmp";
     }
+	@RequestMapping(method = RequestMethod.GET, value = "/searchHospital")
+    String getSearchHospital(Model model) {
+		model.addAttribute("hospitals", homeService.getAllHospitals());
+		model.addAttribute("hospitaltypes", homeService.getAllHospitalTypes());
+        return "searchHospital";
+    }
+	@RequestMapping(method = RequestMethod.GET, value = "/createHospital")
+    String createHospitalForm(@RequestParam(value = "hospitalid", required = false) Integer hospitalid,Model model) {
+		Hospital hospital = null;
+		if(hospitalid!=null)
+			hospital=homeService.getHospitalById(hospitalid);
+        model.addAttribute("hospital",  hospital == null ? new Hospital() : hospital);
+        model.addAttribute("hospitaltypes",  homeService.getAllHospitalTypes());
+        return "createHospital";
+    }
+	@RequestMapping(method = RequestMethod.POST, value = "/createHospital")
+    String createHospitalSubmit(@ModelAttribute Hospital hospital,BindingResult bindingResult) {
+		homeService.createHospital(hospital);
+		return "redirect:/home/searchHospital";
+    }
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/viewClaim")
     String viewClaim(@RequestParam(value = "claimid", required = false) Integer claimid,Integer empid, Model model) {

@@ -28,9 +28,7 @@ public class HospitalDepartment implements Serializable {
 	private Timestamp modifiedtime;
 
 	//bi-directional many-to-one association to Hospital
-	@ManyToOne
-	@JoinColumn(name="hospitalid")
-	private Hospital hospital;
+	private int hospitalid;
 
 	public HospitalDepartment() {
 	}
@@ -67,12 +65,12 @@ public class HospitalDepartment implements Serializable {
 		this.modifiedtime = modifiedtime;
 	}
 
-	public Hospital getHospital() {
-		return this.hospital;
+	public int getHospitalid() {
+		return this.hospitalid;
 	}
 
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
+	public void setHospitalid(int hospitalid) {
+		this.hospitalid = hospitalid;
 	}
 
 }

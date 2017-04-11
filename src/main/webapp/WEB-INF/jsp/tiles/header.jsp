@@ -1,18 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <div align="left"><img style="height: 40px;width: 205px;" src="<%=request.getContextPath()%>/resources/images-msrs/MRBGS-logo.png"></img><span
-		style="padding-left: 2px; padding-bottom: 35px; vertical-align: middle; border: 0px;">Welcome
-		to Master_admin Time:
-		<div style="display: inline;" id="txt"></div>
-	</span><a style="float: right; padding-right: 20px; padding-top: 5px;"
-		href="<%=request.getContextPath()%>/<c:url value="j_spring_security_logout" />">Logout</a>
-</div> --%>
 
 <html>
 <head>
 <title>Submenu Demo</title>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/jquery.min.js"></script>
-<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
 <script type="text/javascript" >
 $(document).ready(function()
 {
@@ -114,7 +106,7 @@ height: 28px;
 width: 121px;
 margin: -11px 0 0 -10px;
 text-decoration: none;
-background: url(oldmsrs/resources/msrs/images/arrow.png) 116px 17px no-repeat;
+background: url(<%=request.getContextPath()%>/resources/msrs/images/arrow.png) 116px 17px no-repeat;
 cursor:pointer;
 }
 .root

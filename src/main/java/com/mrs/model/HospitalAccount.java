@@ -1,9 +1,16 @@
 package com.mrs.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -31,12 +38,11 @@ public class HospitalAccount implements Serializable {
 
 	private String ifsccode;
 
-	private Timestamp modifiedtime;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modifiedtime;
 
 	//bi-directional many-to-one association to Hospital
-	@ManyToOne
-	@JoinColumn(name="hospitalid")
-	private Hospital hospital;
+	private int hospitalid;
 
 	public HospitalAccount() {
 	}
@@ -89,20 +95,20 @@ public class HospitalAccount implements Serializable {
 		this.ifsccode = ifsccode;
 	}
 
-	public Timestamp getModifiedtime() {
+	public Date getModifiedtime() {
 		return this.modifiedtime;
 	}
 
-	public void setModifiedtime(Timestamp modifiedtime) {
+	public void setModifiedtime(Date modifiedtime) {
 		this.modifiedtime = modifiedtime;
 	}
 
-	public Hospital getHospital() {
-		return this.hospital;
+	public int getHospitalid() {
+		return this.hospitalid;
 	}
 
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
+	public void setHospitalid(int hospitalid) {
+		this.hospitalid = hospitalid;
 	}
 
 }
