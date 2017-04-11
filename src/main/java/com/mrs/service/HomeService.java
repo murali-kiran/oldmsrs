@@ -1,6 +1,7 @@
 package com.mrs.service;
 
 import java.util.List;
+import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
 import com.mrs.model.ClaimType;
 import com.mrs.model.Dependent;
@@ -27,7 +28,9 @@ public interface HomeService {
 	public List<Claim> getAllClaimsByEmp(Integer empid);
 	public List<Dependent> getAllDependentsByEmp(Integer empid);
 	public Claim createClaim(Claim claim);
-	public Object getAllClaims();
-	public Object getAllDependents();
+	public List<Claim> getAllClaims();
+	public List<Dependent> getAllDependents();
 	public Claim getClaimById(Integer claimid);
+	public List<Appointment> getAllAppointmentsByClaim(Integer claimid);
+	public Appointment createAppointment(Appointment app);
 }

@@ -12,14 +12,15 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
 </head>
 <body>
-
+<div class="msrs-content">
+<h1 class="ymc-xxxlarge ymc-text-red"><b>Create/Edit Claim</b></h1>
 <form:form modelAttribute="claim" id="claimform"
 					name="claimform" commandName="claim"  action="${pageContext.servletContext.contextPath}/home/createClaim" method="post"	>
 					<table>
 						<tr>
 							<td>Claim Type:</td>
 							<%-- <td><form:input path="benefitType" /></td> --%>
-							<td>
+							<td><form:hidden path="empid" value="${empid}"/>
 								<c:if test="${claimid!=0}">
 									<form:hidden path="claimid" />
 									<form:hidden path="createdtime"/>
@@ -70,7 +71,7 @@
 						</tr>
 					</table>
 				</form:form>
-		<c:if test="${claimid == 0 }">		
+		<c:if test="${claimid != 0 }">		
 				<h1 class="ymc-xxxlarge ymc-text-red"><b>Appointment List</b></h1>
 				<table style="border: 1px solid;"
 					class="table table-bordered table-striped" id="apptable">
@@ -97,67 +98,101 @@
 							<td><c:out value="${app.hospitalname}" /></td>
 							<td><c:out value="${app.nature}" /></td>
 							<td><c:out value="${app.phone}" /></td>
-							<%-- <td style="text-decoration: underline;cursor: pointer;" onclick="editclaim('${claim.incidentid}', '${claim.details}', '${claim.firstdayofincident}',
-							 '${claim.ishomevisitrequired}', '${claim.benefitType.benefittypeid}', '${claim.officeLocation1.officelocationid}',
-							  '${claim.officeLocation2.officelocationid}');"><c:out value="Edit" /></td> --%>
-							<%-- <td><c:out value="${claim.email}" /></td>
-							<td><c:out value="${claim.phone}" /></td> --%>
-							<td><a href="viewclaim?claimid=<c:out value="${app.appointmentid}" />">view</a></td>
+	<td style="text-decoration: underline;cursor: pointer;" onclick="editapp('${app.appointmentid}',
+	 '${app.appointmenttypeid}', '${app.appointmentdate}',
+	 '${app.department}', '${app.details}',
+	  '${app.doctorname}','${app.hospitalname}','${app.hospitalid}','${app.hospitaltype}','${app.nature}',
+	  '${app.phone}','${app.createdtime}');"><c:out value="Edit" /></td> 
+							<%-- <td><a href="viewApp?appid=<c:out value="${app.appointmentid}" />">view</a></td> --%>
 						</tr>
 					</c:forEach>
 				</table>
-	</c:if>			
-				<div id="appdiv" style="display:none;">
-				<h1>Create Appointment</h1>
-					<form:form modelAttribute="appointment" id="appointmentform"
-									name="appointmentform" commandName="appointment"	>
-									<table>
-										<tr>
-											<td>Appointment Type:</td>
-											<td><form:input path="appointmenttypeid" /><input type="hidden" name="" id="" value="nomineeid" /> </td>
-										</tr>
-										<tr>
-											<td>Appointment Date:</td>
-											<td><form:input path="appointmentdate" class="date-picker"/></td>
-										</tr>
-										<tr>
-											<td>Department:</td>
-											<td><form:input path="department"  /></td>
-										</tr>
-										<tr>
-											<td>Appointment Details:</td>
-											<td><form:textarea rows="4" cols="60" path="details" /></td>
-										</tr>
-										<tr>
-											<td>Appointment Nature:</td>
-											<td>
-												<form:select path="nature">
-											    <form:option value="1" label="Yes" />
-											    <form:option value="0" label="No" />
-												</form:select>
-											</td>
-										</tr>
-										<tr>
-											<td>Doctor Name:</td>
-											<td><form:input path="doctorname" /></td>
-										</tr>
-										<tr>
-											<td>Hospital Name:</td>
-											<td><form:input path="hospitalname" /></td>
-										</tr>
-										<tr>
-											<td>Hospital Type:</td>
-											<td><form:input path="hospitaltype" /></td>
-										</tr>
-										<tr>
-											<td>Hospital Id:</td>
-											<td><form:input path="hospitalid" /></td>
-										</tr>
-										<tr>
-											<td><input type="submit" value="Save Dependent" /> </td>
-										</tr>
-									</table>
-								</form:form>
-					</div>
+	
+	<div style="padding-bottom:10px;"> <button id="appbtn" onclick="showAppointment();">Create Appointment</button></div>		
+	<div id="appdiv" style="display:none;">
+	<h1>Create Appointment</h1>
+		<form:form modelAttribute="appointment" id="appointmentform"
+						name="appointmentform" commandName="appointment" 
+						action="${pageContext.servletContext.contextPath}/home/createApp" method="post">
+						<table>
+							<tr>
+								<td>Appointment Type:</td>
+								<td><form:hidden path="empid" value="${empid}"/>
+								<form:hidden path="claimid" value="${claimid}"/>
+									<form:input path="appointmenttypeid" />
+									<c:if test="${appointmentid!=0}">
+										<form:hidden path="appointmentid"/>
+										<form:hidden path="createdtime"/>
+									</c:if>
+								 </td>
+							</tr>
+							<tr>
+								<td>Appointment Date:</td>
+								<td><form:input path="appointmentdate" class="date-picker"/></td>
+							</tr>
+							<tr>
+								<td>Department:</td>
+								<td><form:input path="department"  /></td>
+							</tr>
+							<tr>
+								<td>Appointment Details:</td>
+								<td><form:textarea rows="4" cols="60" path="details" /></td>
+							</tr>
+							<tr>
+								<td>Appointment Nature:</td>
+								<td>
+									<form:select path="nature">
+								    <form:option value="1" label="Yes" />
+								    <form:option value="0" label="No" />
+									</form:select>
+								</td>
+							</tr>
+							<tr>
+								<td>Doctor Name:</td>
+								<td><form:input path="doctorname" /></td>
+							</tr>
+							<tr>
+								<td>Hospital Name:</td>
+								<td><form:input path="hospitalname" /></td>
+							</tr>
+							<tr>
+								<td>Hospital Type:</td>
+								<td><form:input path="hospitaltype" /></td>
+							</tr>
+							<tr>
+								<td>Hospital Id:</td>
+								<td><form:input path="hospitalid" /></td>
+							</tr>
+							<tr>
+								<td>Phone:</td>
+								<td><form:input path="phone" /></td>
+							</tr>
+							<tr>
+								<td><input type="submit" value="Save Appointment" /> </td>
+							</tr>
+						</table>
+					</form:form>
+			</div>
+			</c:if>	
+		</div>
 </body>
+<script type="text/javascript">
+function editapp(id, typeid, date, dept, details,drname,hospname,hospid,hosptype,nature,phone,createdtime){
+	$('#appointmentid').val(id);
+ 	$('#appointmenttypeid').val(typeid);
+ 	$('#appointmentdate').val(date);
+ 	$('#department').val(dept);
+ 	$('#details').val(details);
+ 	$('#doctorname').val(drname);
+ 	$('#hospitalname').val(hospname);
+ 	$('#hospitaltype').val(hosptype);
+ 	$('#hospitalid').val(hospid);
+ 	$('#phone').val(phone);
+ 	$('#nature').val(nature);
+ 	$('#appointmentform #createdtime').val(createdtime);
+ 	$('#appdiv').show();
+ 	showAppointment1 = false;
+	
+}
+</script>
 </html>

@@ -122,12 +122,12 @@
 					<td><c:out value="${claim.status}" /></td>
 					<td><c:out value="${claim.prognosis}" /></td>
 					<td><c:out value="${claim.auditcomments}" /></td>
-					<td><a href="viewClaim?claimid=<c:out value="${claim.claimid}" />">view</a></td>
+					<td><a href="viewClaim?claimid=<c:out value="${claim.claimid}" />&empid=${ emp.empid}">view</a></td>
 				</tr>
 			</c:forEach>
 		</table>
-				
-	<div ><input type="button" style="float:right;" onclick="showCreateClaim1();" value="Create Claim" > </div>
+		
+	<div ><a href="<%=request.getContextPath()%>/home/viewClaim?empid=${ emp.empid}"><input type="button" style="float:right;" onclick="showCreateClaim1();" value="Create Claim" ></a> </div>
 	</div>
 	<script type="text/javascript">
 	 $("#dependentbtn").click(function(e){
@@ -179,10 +179,9 @@
 		 	$('#relationship').val(relationship);
 		 	$('#title').val(phone);
 		 	$('#phone').val(title);
-		 	
 		 	$('#dependentdiv').show();
 		 	showCreateDep = false;
 		 }
 	</script>
 </body>
-</html>
+</html> 
