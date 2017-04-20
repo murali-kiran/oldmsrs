@@ -24,14 +24,13 @@
 						<th>Fax No</th>
 						<th>Address</th>
 						<th>Email</th>
-						<th>Accounts</th>
 						<th>Departments</th>
-						<th>View</th>
+						<th>View Accounts</th>
 					</tr>
 
 					<c:forEach items="${hospitals}" var="hospital">
 						<tr>
-							<td><c:out value="${hospital.hospitalid}" /></td>
+							<td><a href="createHospital?hospitalid=<c:out value="${hospital.hospitalid}" />"><c:out value="${hospital.hospitalid}" /></a></td>
 							<td><c:out value="${hospital.name}"/></td>
 							<td>
 								<c:forEach items="${hospitaltypes}" var="hospitaltype">
@@ -41,32 +40,21 @@
 								</c:forEach>
 							</td>
 							<td>
-								<c:if test="${not empty hospital.phone1}"><c:out value="${emp.phone1}" />, </c:if>
-								<c:if test="${not empty hospital.phone2}"><c:out value="${emp.phone2}" /> </c:if>
+								<c:if test="${not empty hospital.phone1}"><c:out value="${hospital.phone1}" />, </c:if>
+								<c:if test="${not empty hospital.phone2}"><c:out value="${hospital.phone2}" /> </c:if>
 							</td>
 							<td>
 								<c:out value="${emp.faxno}" />
 							<td>
-								<c:if test="${hospital.addressline1 !=null}"><c:out value="${emp.addressline1}" />, </c:if>
-								<c:if test="${hospital.addressline2 !=null}"><c:out value="${emp.addressline2}" />, </c:if>
-								<c:if test="${hospital.city !=null}"><c:out value="${emp.city}" />, </c:if>
-								<c:if test="${hospital.district !=null}"><c:out value="${emp.district}" /> ,</c:if>
-								<c:if test="${hospital.state !=null}"><c:out value="${emp.state}" /> ,</c:if>
-								<c:if test="${hospital.country !=null}"><c:out value="${emp.country}" /> </c:if>
+								<c:if test="${hospital.addressline1 !=null}"><c:out value="${hospital.addressline1}" />, </c:if>
+								<c:if test="${hospital.addressline2 !=null}"><c:out value="${hospital.addressline2}" />, </c:if>
+								<c:if test="${hospital.city !=null}"><c:out value="${hospital.city}" />, </c:if>
+								<c:if test="${hospital.district !=null}"><c:out value="${hospital.district}" /> ,</c:if>
+								<c:if test="${hospital.state !=null}"><c:out value="${hospital.state}" /> ,</c:if>
+								<c:if test="${hospital.country !=null}"><c:out value="${hospital.country}" /> </c:if>
 							</td>
 							<td><c:out value="${hospital.emailid}" /></td>
-							<td>
-								<table>
-									<c:forEach items="${hospital.hospitalAccounts}" var="account">
-										<tr>
-											<td><c:out value="${account.accountnumber}" /></td>
-											<td><c:out value="${account.bank}" /></td>
-											<td><c:out value="${account.branch}" /></td>
-											<td><c:out value="${account.ifsccode}" /></td>
-										</tr>
-									</c:forEach>
-								</table>
-							</td>
+							
 							<td>
 								<table>
 									<c:forEach items="${hospital.hospitalDepartments}" var="dept">
@@ -76,7 +64,7 @@
 									</c:forEach>
 								</table>
 							</td>
-							<td><a href="viewHospital?hospitalid=<c:out value="${hospital.hospitalid}" />">view</a></td>
+							<td><a href="viewAccounts?hospitalid=<c:out value="${hospital.hospitalid}" />">view</a></td>
 						</tr>
 					</c:forEach>
 				</table>

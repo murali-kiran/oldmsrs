@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 
 /**
@@ -74,7 +75,8 @@ public class Hospital implements Serializable {
 	@OneToMany
 	@JoinColumn(name="hospitalid",insertable=false,updatable=false)
 	private List<HospitalDepartment> hospitalDepartments;
-	
+	@Transient
+	private String hospitalDeptString;
 	public Hospital() {
 	}
 
@@ -230,4 +232,12 @@ public class Hospital implements Serializable {
 		this.hospitalDepartments = hospitalDepartments;
 	}
 
+	public String getHospitalDeptString() {
+		return hospitalDeptString;
+	}
+
+	public void setHospitalDeptString(String hospitalDeptString) {
+		this.hospitalDeptString = hospitalDeptString;
+	}
+	
 }

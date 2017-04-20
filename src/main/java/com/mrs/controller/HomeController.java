@@ -21,6 +21,7 @@ import com.mrs.model.Claim;
 import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
 import com.mrs.model.Hospital;
+import com.mrs.model.HospitalAccount;
 import com.mrs.service.HomeService;
 
 @Controller
@@ -88,6 +89,22 @@ public class HomeController {
         model.addAttribute("hospital",  hospital == null ? new Hospital() : hospital);
         model.addAttribute("hospitaltypes",  homeService.getAllHospitalTypes());
         return "createHospital";
+    }
+	@RequestMapping(method = RequestMethod.GET, value = "/viewAccounts")
+    String viewAccountsForm(@RequestParam(value = "hospitalid", required = false) Integer hospitalid,Integer hospaccid,Model model) {
+		HospitalAccount hospitalacc = null;
+		if(hospaccid!=null)
+			hospitalacc=homeService.getHospitalAccById(hospaccid);
+        model.addAttribute("account",  hospitalacc == null ? new HospitalAccount() : hospitalacc);
+        model.addAttribute("hospitalid",  hospitalid);
+		model.addAttribute("hospitalaccounts",  homeService.getAccountsByHospital(hospitalid));
+        return "viewAccounts";
+    }
+	@RequestMapping(method = RequestMethod.POST, value = "/createAccount")
+    String createHospitalAccount(@ModelAttribute HospitalAccount hospitalacc,BindingResult bindingResult,Model model) {
+		homeService.createHospitalAccount(hospitalacc);
+		model.addAttribute("hospitalid",  hospitalacc.getHospitalid());
+		return "redirect:/home/viewAccounts";
     }
 	@RequestMapping(method = RequestMethod.POST, value = "/createHospital")
     String createHospitalSubmit(@ModelAttribute Hospital hospital,BindingResult bindingResult) {

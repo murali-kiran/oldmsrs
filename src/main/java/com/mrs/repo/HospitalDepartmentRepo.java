@@ -48,7 +48,20 @@ public class HospitalDepartmentRepo {
 			throw re;
 		}
 	}
-
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
+	public void deleteByHospital(int hospitalId) {
+		logger.info("deleting HospitalDepartment instance");
+		try {
+			String queryString = "delete from HospitalDepartment model where model.hospitalid="+hospitalId;
+			Query query = entityManager
+					.createQuery(queryString);
+			query.executeUpdate();
+			logger.info("delete successful");
+		} catch (RuntimeException re) {
+			logger.error("delete failed", re);
+			throw re;
+		}
+	}
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
 	public HospitalDepartment update(HospitalDepartment entity) {
 		logger.info("updating HospitalDepartment instance");

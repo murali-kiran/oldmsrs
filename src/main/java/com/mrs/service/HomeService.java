@@ -33,4 +33,7 @@ public interface HomeService {
 	public Claim getClaimById(Integer claimid);
 	public List<Appointment> getAllAppointmentsByClaim(Integer claimid);
 	public Appointment createAppointment(Appointment app);
+	public List<HospitalAccount> getAccountsByHospital(Integer hospitalid);
+	public HospitalAccount getHospitalAccById(Integer hospaccid);
+	public HospitalAccount createHospitalAccount(HospitalAccount hospitalacc);
 }
