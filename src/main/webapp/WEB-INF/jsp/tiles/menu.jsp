@@ -1,7 +1,7 @@
 
 <section style="display:inline;" >
 
-<button class="accordion">Employee</button>
+<button class="accordion">Persona</button>
 <div class="panel">
   <p class="sub_panel"><a href="<%=request.getContextPath()%>/home/empList" class="ymc-padding ymc-hover-white">-> Employee List</a></p>
   <p class="sub_panel"><a href="<%=request.getContextPath()%>/home/searchEmp" class="ymc-padding ymc-hover-white">-> Employee Search</a></p>
