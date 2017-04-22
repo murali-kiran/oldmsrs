@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mrs.model.Hospital;
+import com.mrs.model.HospitalDepartment;
 
 @Repository
 public class HospitalRepo {
@@ -66,6 +67,7 @@ public class HospitalRepo {
 		logger.info("finding Hospital instance with id: " + id);
 		try {
 			Hospital instance = entityManager.find(Hospital.class, id);
+			
 			return instance;
 		} catch (RuntimeException re) {
 			logger.error("find failed", re);

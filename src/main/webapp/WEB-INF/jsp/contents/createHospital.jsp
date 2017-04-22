@@ -4,9 +4,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/msrs/css/jquery.tagsinput.css" />
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/jquery.tagsinput.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js'></script>
+  <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/start/jquery-ui.css" />
+
 
 <title>MRBGS |Create Hospital</title>
+
+ <script type="text/javascript">
+    function onAddTag(tag) {
+      alert("Added a tag: " + tag);
+    }
+    function onRemoveTag(tag) {
+      alert("Removed a tag: " + tag);
+    }
+    function onChangeTag(input,tag) {
+      alert("Changed a tag: " + tag);
+    }
+
+    $(function() {
+      $('#hospitalDeptString').tagsInput({width:'auto'});
+    });
+  </script>
 </head>
 
 
@@ -37,9 +59,26 @@
         <tr><td>District</td><td><form:input path="district" /></td></tr>
         <tr><td>state</td><td><form:input path="state" /></td></tr>
         <tr><td>Country</td><td><form:input path="country" /></td></tr>
+        <tr><td>Departments:</td><td>
+      	<form:input path="hospitalDeptString" class="tags" /></td></tr>
+      	
+		<%--<c:forEach items="${hospital.hospitalAccounts}" var="Account" varStatus="i" begin="0" >
+	                <tr class="account">    
+	                    <td><form:input path="hospitalAccounts[${i.index}].accountnumber" id="accountnumber${i.index}" /></td>
+	                    <td><form:input path="hospitalAccounts[${i.index}].bank" id="bank${i.index}" /></td>
+	                    <td><form:input path="hospitalAccounts[${i.index}].branch" id="branch${i.index}" /></td>
+	                    <td><form:input path="hospitalAccounts[${i.index}].ifsccode" id="ifsccode${i.index}" /></td>
+	                    
+	                    <td><a href="#" class="removePerson">Remove Account</a></td>
+	                </tr>
+	    </c:forEach> --%>
+      		
+      	
         <tr><td colspan="2"><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></td></tr>
+        <!-- <tr><td> <a href="#" id="addAccount">Add Account</a>&nbsp;&nbsp;</td></tr> -->
         </table>
     </form:form>
     </div>
 </body>
 </html>
+<!-- http://stackoverflow.com/questions/11495916/dynamically-add-rows-for-spring-form-using-jqury -->

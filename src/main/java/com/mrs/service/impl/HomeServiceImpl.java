@@ -1,12 +1,17 @@
 package com.mrs.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
@@ -105,10 +110,25 @@ public class HomeServiceImpl implements HomeService{
 		return null;
 	}
 	public Hospital getHospitalById(Integer hospitalid){
-		return hospitalRepo.findById(hospitalid);
+		Hospital instance = hospitalRepo.findById(hospitalid);
+		String str = "";
+		List<HospitalDepartment> hdps = hospitalDepartmentRepo.findByProperty("hospitalid", hospitalid);
+		for (HospitalDepartment hospitalDepartment : hdps) {
+			if(str.equals(""))
+				str = str + hospitalDepartment.getDepartment();
+			else
+				str = str +","+ hospitalDepartment.getDepartment();
+		}
+		instance.setHospitalDeptString(str);
+		return instance;
 	}
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = DataAccessException.class)
 	public Hospital createHospital(Hospital hospital){
 		logger.info("Saving Hospital "+hospital);
+		List<String> items = Arrays.asList(hospital.getHospitalDeptString().split("\\s*,\\s*"));
+		List<HospitalDepartment> hdlist = new ArrayList<HospitalDepartment>(); 
+		
+		hospital.setHospitalDepartments(hdlist);
 		if(hospital.getHospitalid()==0){
 			hospital.setCreatedtime(new Date());
 			hospital.setModifiedtime(new Date());
@@ -117,6 +137,18 @@ public class HomeServiceImpl implements HomeService{
 			hospital.setModifiedtime(new Date());
 			hospitalRepo.update(hospital);
 		}
+		int hospid = hospital.getHospitalid();
+		hospitalDepartmentRepo.deleteByHospital(hospid);
+		for (String string : items) {
+			HospitalDepartment hd = new HospitalDepartment();
+			hd.setCreatedtime(new Date());
+			hd.setDepartment(string);
+			hd.setHospitalid(hospid);
+			hospitalDepartmentRepo.save(hd);
+			//hdlist.add(hd);
+		}
+		
+		
 		return  hospital;
 	}
 	public List<Hospital> getAllHospitals(){
@@ -204,6 +236,31 @@ public class HomeServiceImpl implements HomeService{
 			appointmentRepo.update(app);
 		}
 		return app;
+	}
+
+	@Override
+	public List<HospitalAccount> getAccountsByHospital(Integer hospitalid) {
+		// TODO Auto-generated method stub
+		return hospitalAccountRepo.findByProperty("hospitalid", hospitalid);
+	}
+
+	@Override
+	public HospitalAccount getHospitalAccById(Integer hospaccid) {
+		// TODO Auto-generated method stub
+		return hospitalAccountRepo.findById(hospaccid);
+	}
+
+	@Override
+	public HospitalAccount createHospitalAccount(HospitalAccount hospitalacc) {
+		// TODO Auto-generated method stub
+		if(hospitalacc.getHospitalaccountid()==0){
+			hospitalacc.setCreatedtime(new Date());
+			hospitalAccountRepo.save(hospitalacc);
+		}else {
+			hospitalacc.setModifiedtime(new Date());
+			hospitalAccountRepo.update(hospitalacc);
+		}
+		return hospitalacc;
 	}
 	
 }
