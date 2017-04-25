@@ -10,7 +10,40 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/app.js"></script>--%>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/msrs.js"></script> 
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/msrs.js"></script>
+<script>
+function SubmitForm(){
+	var status = true;
+	var str = "";
+	alert($.trim($('#empid').val()));
+	if ($.trim($('#firstname').val()) == ''){
+		str = "First name required\n";
+		status = false;
+	}
+	if ($.trim($('#lastname').val()) == ''){
+		str = str + "Last Name required\n";
+		status = false;
+	}
+	if ($.trim($('#dob').val()) == ''){
+		str = str + "Date Of Birth required\n";
+		status = false;
+	}
+	if ($.trim($('#relationship').val()) == ''){
+		str = str + "Relationship required\n";
+		status = false;
+	}
+	if ($.trim($('#phone').val()) == ''){
+		str = str + "Phone required\n";
+		status = false;
+	}
+	if(str != ""){
+		alert(str);
+		return status;	
+	}
+	
+}
+</script>
+ 
 <body>
 	
 <div class="msrs-content">
@@ -58,22 +91,24 @@
 					<td><c:out value="${dependent.title}" /></td> 
 					<td style="text-decoration: underline;cursor: pointer;" onclick="editdependent('${dependent.dependentid}',
 					 '${dependent.firstname}','${dependent.lastname}','${dependent.dob}', '${dependent.relationship}', 
-					 '${dependent.phone}','${dependent.title}');"><c:out value="Edit" /></td>
+					 '${dependent.phone}','${dependent.title}','${dependent.createdtime}','${emp.empid}');"><c:out value="Edit" /></td>
 </tr>
 			</c:forEach>
 		</table>
 
 
 <div><input style="margin-left:300px; float:right;" type="button" onclick="showCreateDependent(${fn:length(requestScope.dependents)});" value="Create Dependent" ></div>
-
 <div id="dependentdiv" style="display:none;">
 <h1>Create Dependent</h1>
 	<form:form modelAttribute="dependent" id="dependentform"
-					name="dependentform" commandName="dependent"	>
+					name="dependentform" commandName="dependent"
+					onsubmit="return SubmitForm();" action="${pageContext.servletContext.contextPath}/home/createDependent">
 					<table>
 						<tr>
 							<td>First Name:</td>
-							<td><form:input path="firstname" /><form:hidden path="dependentid" /><form:hidden path="empid" value="${emp.empid }" /> </td>
+							<td><form:input path="firstname" /><form:hidden path="createdtime"/><form:hidden path="dependentid" />
+							<form:hidden  path="empid" value="${emp.empid }" />
+							 </td>
 						</tr>
 						<tr>
 							<td>First Name:</td>
@@ -97,7 +132,7 @@
 						</tr>
 						
 						<tr>
-							<td><input id="dependentbtn" type="button" value="Save Dependent" /> </td>
+							<td><input type="submit" value="Save Dependent" /> </td>
 						</tr>
 					</table>
 				</form:form>
@@ -148,7 +183,7 @@
 		 //alert("Details:"+jsonData.name);
 	 });
 	 
-	 function callAjaxPost1(data, url, obj) {
+	 /*function callAjaxPost1(data, url, obj) {
 			//alert("in ajax123");
 			var jsondata = "";
 			$.ajax({
@@ -168,10 +203,10 @@
 				}
 			});
 			//return jsondata;
-		}
+		}*/
 
-	 function editdependent(id, fname, lname, dob, relationship, phone, title) {
-			// alert(id);
+	 function editdependent(id, fname, lname, dob, relationship, phone, title,ctime,empid) {
+			// alert(empid);
 		 	$('#dependentid').val(id);
 		 	$('#firstname').val(fname);
 		 	$('#lastname').val(lname);
@@ -179,7 +214,10 @@
 		 	$('#relationship').val(relationship);
 		 	$('#title').val(phone);
 		 	$('#phone').val(title);
+		 	$('#createdtime').val(ctime);
+		 	$('#empid').val(empid);
 		 	$('#dependentdiv').show();
+		 	
 		 	showCreateDep = false;
 		 }
 	</script>

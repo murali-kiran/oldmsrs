@@ -28,6 +28,40 @@
     $(function() {
       $('#hospitalDeptString').tagsInput({width:'auto'});
     });
+    
+    function SubmitForm(){
+    	if ($.trim($('#name').val()) == ''){
+    		alert("Hospital name required");
+    		event.preventDefault();
+    		return false;
+    	}
+    	if ($.trim($('#hospitaltypeid').val()) == ''){
+    		alert("Hospital Type required");
+    		return false;
+    	}
+    	if ($.trim($('#phone1').val()) == ''){
+    		alert("Phone1 required");
+    		return false;
+    	}
+    	if ($.trim($('#faxno').val()) == ''){
+    		alert("Fax number required");
+    		return false;
+    	}
+    	if ($.trim($('#addressline1').val()) == ''){
+    		alert("Flat Number required");
+    		return false;
+    	}
+    	if ($.trim($('#addressline2').val()) == ''){
+    		alert("Street required");
+    		return false;
+    	}
+    	if ($.trim($('#hospitalDeptString').val()) == ''){
+    		alert("Department required");
+    		return false;
+    	}
+    		
+    }
+    
   </script>
 </head>
 
@@ -39,7 +73,7 @@
 
 <h1 class="ymc-xxxlarge ymc-text-red"><b>Create Hospital</b></h1>
 <form:form method="post" modelAttribute="hospital" id="createHospitalform" name="createHospitalform"  commandName="hospital"
-                           action="${pageContext.servletContext.contextPath}/home/createHospital">
+          onsubmit="return SubmitForm();" action="${pageContext.servletContext.contextPath}/home/createHospital">
 	<c:if test="${hospitalid!=0}">
 		<form:hidden path="hospitalid"/>
 		<form:hidden path="createdtime"/>

@@ -12,9 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
@@ -143,4 +145,9 @@ public class HomeController {
 	    CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true);
 	    binder.registerCustomEditor(Date.class, editor);
 	}
+	@RequestMapping(value="/createDependent",method = RequestMethod.POST)
+    String createDependent(@ModelAttribute Dependent dependent,BindingResult bindingResult) {
+        homeService.createDependent(dependent);
+        return "redirect:/home/viewEmp?empid="+dependent.getEmpid();
+    }
 }

@@ -17,6 +17,28 @@ $(document).ready(function(){
 		$('#accountdiv').show();
 	}
 });
+
+function SubmitForm(){
+	if ($.trim($('#accountnumber').val()) == ''){
+		alert("Account Number required");
+		event.preventDefault();
+		return false;
+	}
+	if ($.trim($('#bank').val()) == ''){
+		alert("Bank Name required");
+		return false;
+	}
+	if ($.trim($('#branch').val()) == ''){
+		alert("Branch Name required");
+		return false;
+	}
+	if ($.trim($('#ifsccode').val()) == ''){
+		alert("Ifsc code required");
+		return false;
+	}
+	
+		
+}
 </script>
 <body>
 	
@@ -30,7 +52,7 @@ $(document).ready(function(){
 <div id="accountdiv" style="display:none;">
 <h1>Create/Edit Account</h1>
 	<form:form modelAttribute="account" id="accountform" action="${pageContext.servletContext.contextPath}/home/createAccount"
-					name="accountform" commandName="account" method="post"	>
+			onsubmit="return SubmitForm();"	name="accountform" commandName="account" method="post"	>
 					<table>
 						<tr>
 						<c:if test="${hospitalaccountid!=0}">
@@ -81,7 +103,7 @@ $(document).ready(function(){
 					<td><c:out value="${account.bank}" /></td>
 					<td><c:out value="${account.bank}" /></td>
 					<td><c:out value="${account.ifsccode}" /></td>
-					<td><a href="viewAccounts?hospaccid=${account.hospitalaccountid}&hospitalid=${hospitalid}" >view</a></td>
+					<td><a href="viewAccounts?hospaccid=${account.hospitalaccountid}&hospitalid=${hospitalid}" >Edit</a></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -89,58 +111,7 @@ $(document).ready(function(){
 	</div>
 	</div>
 	<script type="text/javascript">
-	 $("#dependentbtn").click(function(e){
-		 e.preventDefault();
-		 var dependent = {}
-		 dependent["dependentid"] = $("#dependentid").val();
-		 dependent["firstname"] = $("#firstname").val();
-		 dependent["lastname"] = $("#lastname").val();
-		 dependent["relationship"] = $("#relationship").val();
-		 dependent["dob"] = $("#dob").val();
-		 dependent["title"] = $("#title").val();
-		 dependent["phone"] = $("#phone").val();
-		 dependent["empid"] = $("#empid").val();
-		
-		 //alert("iii:"+JSON.stringify(dependent));
-		 var url = "/oldmsrs/rest/createDependent";
-		 var jsonData = callAjaxPost1(dependent, url, 'dependent');
-		 //alert("Details:"+jsonData.name);
-	 });
-	 
-	 function callAjaxPost1(data, url, obj) {
-			//alert("in ajax123");
-			var jsondata = "";
-			$.ajax({
-				type : "POST",
-				url : url,
-				data : JSON.stringify(data),
-				contentType : 'application/json',
-				success : function(data) {
-					jsondata = data;
-					alert("Data Saved!");
-					setTimeout(function(){// wait for 5 secs(2)
-				           location.reload(); // then reload the page.(3)
-				    }, 2000);
-				},
-				error : function(error) {
-					alert("Data Not Saved Due To:"+error);
-				}
-			});
-			//return jsondata;
-		}
-
-	 function editdependent(id, fname, lname, dob, relationship, phone, title) {
-			// alert(id);
-		 	$('#dependentid').val(id);
-		 	$('#firstname').val(fname);
-		 	$('#lastname').val(lname);
-		 	$('#dob').val(dob);
-		 	$('#relationship').val(relationship);
-		 	$('#title').val(phone);
-		 	$('#phone').val(title);
-		 	$('#dependentdiv').show();
-		 	showCreateDep = false;
-		 }
+	
 	 function showCreateAccount(){
 		 $('#accountdiv').show();
 	 }

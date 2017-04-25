@@ -5,8 +5,35 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"/>
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/msrs/js/msrs.js"></script> 
 <title>MRBGS |Create Emp</title>
+<script>
+function SubmitForm(){
+	if ($.trim($('#firstname').val()) == ''){
+		alert("First name required");
+		return false;
+	}
+	if ($.trim($('#lastname').val()) == ''){
+		alert("Last name required");
+		return false;
+	}
+	if ($.trim($('#dob').val()) == ''){
+		alert("Date Of Birth required");
+		return false;
+	}
+	if ($.trim($('#phone').val()) == ''){
+		alert("Phone number required");
+		return false;
+	}
+	if ($.trim($('#adress').val()) == ''){
+		alert("Address required");
+		return false;
+	}
+		
+}
+</script>
 </head>
 
 
@@ -17,7 +44,7 @@
 
 <h1 class="ymc-xxxlarge ymc-text-red"><b>Create Employee</b></h1>
 <form:form method="post" modelAttribute="emp" id="createEmpform" name="createEmpform"  commandName="emp"
-                           action="${pageContext.servletContext.contextPath}/home/createEmp">
+                           action="${pageContext.servletContext.contextPath}/home/createEmp" onsubmit="return SubmitForm();">
 	<c:if test="${empid!=0}">
 		<form:hidden path="empid"/>
 		<form:hidden path="createdtime"/>
@@ -28,7 +55,7 @@
         <tr><td>Middle Name</td><td> <form:input path="middlename" /></td></tr>
         <tr><td>Last Name</td><td><form:input path="lastname" /></td></tr>
         <tr><td>Gender </td><td><form:select  path="gender"><form:option value="0">Male</form:option><form:option value="1">Female</form:option></form:select></td></tr>
-        <tr><td>Date of Birthday</td><td><form:input class="date-picker" path="dob" /></td></tr>
+        <tr><td>Date of Birthday</td><td><form:input onclick="opendate();" class="date-picker" path="dob" /></td></tr>
         <tr><td>phone</td><td><form:input  path="phone" /></td></tr>
         <tr><td>email</td><td><form:input path="email" /></td></tr>
         <tr><td>Address</td><td><form:textarea path="adress" /></td></tr>

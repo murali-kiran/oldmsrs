@@ -122,7 +122,7 @@ public class Dependent implements Serializable {
 		return this.empid;
 	}
 
-	public void setEmp(int empid) {
+	public void setEmpid(int empid) {
 		this.empid = empid;
 	}
 
