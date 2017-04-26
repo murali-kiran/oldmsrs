@@ -40,7 +40,7 @@ public class HomeController {
 	@RequestMapping(method = RequestMethod.GET, value = "/searchEmp")
     String showSearch(Model model) {
 		model.addAttribute("emp", new Emp());
-		model.addAttribute("emps", new ArrayList<Emp>());
+		model.addAttribute("emps", homeService.getAllEmployeesByEmp(null));
         return "searchEmp";
     } 
 	@RequestMapping(method = RequestMethod.POST, value = "/searchEmp")

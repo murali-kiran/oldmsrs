@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -114,6 +115,53 @@ public class EmpRepo {
 			final String queryString = "select model from Emp model";
 			Query query = entityManager
 					.createQuery(queryString, Emp.class);
+			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
+				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
+				if (rowStartIdx > 0) {
+					query.setFirstResult(rowStartIdx);
+				}
+
+				if (rowStartIdxAndCount.length > 1) {
+					int rowCount = Math.max(0, rowStartIdxAndCount[1]);
+					if (rowCount > 0) {
+						query.setMaxResults(rowCount);
+					}
+				}
+			}
+			return query.getResultList();
+		} catch (RuntimeException re) {
+			logger.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Emp> findAllByEmp(Emp emp,final int... rowStartIdxAndCount) {
+		logger.info("finding all Emp instances");
+		try {
+			StringBuffer queryStringbuffer = new StringBuffer("select model from Emp model where 1=1");
+			
+			if(emp!=null && emp.getEmpid()!=0)
+				queryStringbuffer.append(" AND empid=:empid ");
+			if(emp!=null && StringUtils.isNotEmpty(emp.getFirstname()))
+				queryStringbuffer.append(" AND firstname=:firstname ");
+			if(emp!=null && StringUtils.isNotEmpty(emp.getLastname()))
+				queryStringbuffer.append(" AND lastname= :lastname ");
+			if(emp!=null && emp.getDob()!=null)
+				queryStringbuffer.append(" AND dob=:dob");
+			
+			final String queryString = queryStringbuffer.toString();
+			Query query = entityManager
+					.createQuery(queryString, Emp.class);
+			
+			if(emp!=null && emp.getEmpid()!=0)
+				query.setParameter("empid", emp.getEmpid());
+			if(emp!=null && StringUtils.isNotEmpty(emp.getFirstname()))
+				query.setParameter("firstname", emp.getFirstname());
+			if(emp!=null && StringUtils.isNotEmpty(emp.getLastname()))
+				query.setParameter("lastname", emp.getLastname());
+			if(emp!=null && emp.getDob()!=null)
+				query.setParameter("dob", emp.getDob());
 			if (rowStartIdxAndCount != null && rowStartIdxAndCount.length > 0) {
 				int rowStartIdx = Math.max(0, rowStartIdxAndCount[0]);
 				if (rowStartIdx > 0) {

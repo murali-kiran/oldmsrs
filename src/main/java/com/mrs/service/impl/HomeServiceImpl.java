@@ -77,7 +77,7 @@ public class HomeServiceImpl implements HomeService{
 	@Override
 	public List<Emp> getAllEmployeesByEmp(Emp emp) {
 		logger.info("find Employees by "+emp);
-		return (List<Emp>) empRepo.findAll();
+		return (List<Emp>) empRepo.findAllByEmp(emp);
 	}
 	@Override
 	public Emp getEmpById(Integer empid) {
