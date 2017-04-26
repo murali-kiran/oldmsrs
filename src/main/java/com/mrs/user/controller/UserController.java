@@ -14,6 +14,6 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.GET, value = "/createUser")
     public String createUser(Model model) {
         model.addAttribute("user", new User());
-        return "index";
+        return "createUser";
     }
 }
