@@ -1,6 +1,9 @@
 package com.mrs.service;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
 import com.mrs.model.ClaimType;
@@ -8,6 +11,7 @@ import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
 import com.mrs.model.Hospital;
 import com.mrs.model.HospitalAccount;
+import com.mrs.model.HospitalAppoinmentBean;
 import com.mrs.model.HospitalDepartment;
 import com.mrs.model.HospitalType;
 
@@ -32,8 +36,9 @@ public interface HomeService {
 	public List<Dependent> getAllDependents();
 	public Claim getClaimById(Integer claimid);
 	public List<Appointment> getAllAppointmentsByClaim(Integer claimid);
-	public Appointment createAppointment(Appointment app);
+	public Appointment createAppointment(Appointment app,HttpServletRequest request);
 	public List<HospitalAccount> getAccountsByHospital(Integer hospitalid);
 	public HospitalAccount getHospitalAccById(Integer hospaccid);
 	public HospitalAccount createHospitalAccount(HospitalAccount hospitalacc);
+	public void apiCall(HttpServletRequest request,HospitalAppoinmentBean appoinmentBean) throws Exception;
 }
