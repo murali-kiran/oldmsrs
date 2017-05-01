@@ -1,22 +1,22 @@
 package com.mrs.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
@@ -136,8 +136,8 @@ public class HomeController {
 		return "redirect:/home/viewClaim?claimid="+claim.getClaimid();
     }
 	@RequestMapping(method = RequestMethod.POST, value = "/createApp")
-    String createAppSubmit(@ModelAttribute Appointment app,BindingResult bindingResult) {
-		homeService.createAppointment(app);
+    String createAppSubmit(@ModelAttribute Appointment app,BindingResult bindingResult,HttpServletRequest request) {
+		homeService.createAppointment(app,request);
 		return "redirect:/home/viewClaim?claimid="+app.getClaimid()+"&empid="+app.getEmpid();
     }
 	@InitBinder

@@ -1,9 +1,12 @@
 package com.mrs.service.impl;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import com.mrs.model.Appointment;
 import com.mrs.model.Claim;
@@ -20,6 +24,7 @@ import com.mrs.model.Dependent;
 import com.mrs.model.Emp;
 import com.mrs.model.Hospital;
 import com.mrs.model.HospitalAccount;
+import com.mrs.model.HospitalAppoinmentBean;
 import com.mrs.model.HospitalDepartment;
 import com.mrs.model.HospitalType;
 import com.mrs.repo.AppointmentRepo;
@@ -225,12 +230,27 @@ public class HomeServiceImpl implements HomeService{
 	}
 
 	@Override
-	public Appointment createAppointment(Appointment app) {
+	public Appointment createAppointment(Appointment app,HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		logger.info("Saving Claim "+app);
 		if(app.getAppointmentid()==0){
 			app.setCreatedtime(new Date());
 			appointmentRepo.save(app);
+			if(app.getHospitaltype() ==1) {
+				try {
+					logger.info("Hospital type is external going to hit practo api");
+					HospitalAppoinmentBean appoinmentBean = new  HospitalAppoinmentBean();
+					appoinmentBean.setAppointmentDate(app.getAppointmentdate());
+					appoinmentBean.setHospitalCode(app.getHospitalid()+"");
+					appoinmentBean.setDeptName(app.getDepartment());
+					Emp emp =empRepo.findById(app.getEmpid());
+					appoinmentBean.setEmpName(emp.getFirstname() + " " + emp.getLastname());
+					appoinmentBean.setDocterName(app.getDoctorname());
+					apiCall(request, appoinmentBean);
+				} catch (Exception e) {
+					logger.warn("Error",e);
+				}
+			}
 		}else {
 			app.setModifiedtime(new Date());
 			appointmentRepo.update(app);
@@ -262,5 +282,16 @@ public class HomeServiceImpl implements HomeService{
 		}
 		return hospitalacc;
 	}
+	
+	public void apiCall(HttpServletRequest request,HospitalAppoinmentBean appoinmentBean) throws Exception{
+		RestTemplate rt = new RestTemplate();
+        String[] tokens= request.getRequestURL().toString().split(request.getContextPath());
+        String s = tokens[0] + request.getContextPath() + "/rest/practoAPI";
+        String responce = rt.postForObject(new URI(s ), appoinmentBean,String.class);
+        
+        logger.info("Got Responce : " + responce);
+
+	}
+	
 	
 }
